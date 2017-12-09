@@ -36,7 +36,7 @@ class App extends Component {
   componentDidMount() {
     setInterval(
       () => this.search(),
-      60000 //1 min
+      60000 // 1 min
     )
   }
 
@@ -58,7 +58,7 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">cornucop.io</h1>
+          <h1 className="App-title">coinucop.io</h1>
         </header>
         <br/>
         <textarea rows="30" cols="100" onChange={this.handleChange} />
