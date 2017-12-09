@@ -13,6 +13,23 @@ class PortfolioChart extends Component {
     this.renderChart();
   }
 
+  componentDidUpdate() {
+    var data = [];
+    this.props.coins.forEach(
+      (coin) => {
+        data.push(coin.total.toFixed(2));
+      }
+    )
+    document.pie.data.datasets[0].data = data;
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (JSON.stringify(this.props) == JSON.stringify(nextProps)) {
+      return false;
+    }
+    return true
+  }
+
   buildChartConfig() {
     var data = [];
     var labels = [];
