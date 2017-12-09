@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Chart from 'chart.js'
 
+import ChartColors from './charts/constants'
+
 class PortfolioChart extends Component {
 
   randomScalingFactor = function() {
@@ -8,30 +10,38 @@ class PortfolioChart extends Component {
   };
 
   componentDidMount() {
-    var ctx = this.refs.ChartArea.getContext("2d");
-    var config = {
+    this.renderChart();
+  }
+
+  buildChartConfig() {
+    var data = [];
+    var labels = [];
+
+    this.props.coins.forEach(
+      (coin) => {
+        data.push(coin.total.toFixed(2));
+        labels.push(coin.name);
+      }
+    )
+    return {
       type: 'pie',
       data: {
         datasets: [{
-          data: [
-            this.randomScalingFactor(),
-            this.randomScalingFactor()
-          ],
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)'
-          ],
-          label: 'Dataset 1'
+          data: data,
+          backgroundColor: ChartColors.rgba_codes.slice(0, this.props.coins.length),
+          label: 'Portfolio'
         }],
-        labels: [
-          "Red",
-          "Blue"
-        ]
+        labels: labels
       },
       options: {
         responsive: true
       }
-    };
+    }
+  }
+
+  renderChart() {
+    var ctx = this.refs.ChartArea.getContext("2d");
+    var config = this.buildChartConfig();
     document.pie = new Chart(ctx, config);
   }
 
@@ -40,6 +50,8 @@ class PortfolioChart extends Component {
       <div className="PortfolioChart">
         <canvas id="chart-area" ref="ChartArea">
         </canvas>
+        <br/>
+        * Supports up to 50 currencies at this time.
       </div>
     );
   }

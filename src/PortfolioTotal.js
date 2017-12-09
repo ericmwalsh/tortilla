@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 
+import PortfolioChart from './PortfolioChart'
+
 class PortfolioTotal extends Component {
 
   calculatePortfolioValue = () => {
     var total_hash = {
-      total: 0,
-      coins: []
+      coins: [],
+      total: 0
     };
     for(var coin_symbol in this.props.portfolio){
       // coin_symbol
@@ -28,14 +30,22 @@ class PortfolioTotal extends Component {
         )
       }
     }
-    return total_hash
+    return total_hash;
   }
 
   render() {
-    const total_hash = this.calculatePortfolioValue()
+    var total_hash = this.calculatePortfolioValue()
+
+    let chart = null;
+    if (total_hash.total > 0) {
+      chart = <PortfolioChart total={total_hash.total} coins={total_hash.coins} />;
+    }
+
     return (
       <div className="PortfolioValue">
-        ${total_hash.total}
+        ${total_hash.total.toFixed(2)}
+        <br/>
+        {chart}
       </div>
     );
   }

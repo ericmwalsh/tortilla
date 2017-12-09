@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-import PortfolioChart from './PortfolioChart'
 import PortfolioTotal from './PortfolioTotal'
 
 class App extends Component {
@@ -61,7 +60,7 @@ class App extends Component {
           <h1 className="App-title">coinucop.io</h1>
         </header>
         <br/>
-        <textarea rows="30" cols="100" onChange={this.handleChange} />
+        <textarea rows="30" cols="70" onChange={this.handleChange} />
         <br/>
         <PortfolioTotal coins={this.state.coins} portfolio={this.state.portfolio}/>
       </div>
