@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import logo from './logo.svg';
 import './App.css';
-import './Table.css';
 
 
 import PortfolioTotal from './PortfolioTotal'
@@ -69,6 +68,8 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">coinucop.io</h1>
         </header>
+        <br/>
+        Enter a profile, track its value.
         <br/>
         <textarea rows="30" cols="70" onChange={this.handleChange} defaultValue={this.examplePortfolio()} />
         <br/>

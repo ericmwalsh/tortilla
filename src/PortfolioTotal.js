@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import PortfolioChart from './PortfolioChart'
 import PortfolioTable from './PortfolioTable'
+import './Portfolio.css';
 
 class PortfolioTotal extends Component {
 
@@ -20,18 +21,27 @@ class PortfolioTotal extends Component {
         }
       )
       if(api_coin_hash){
-        var coin_total = parseFloat(api_coin_hash["price_usd"]) * coin_quantity
+        var coin_value = parseFloat(api_coin_hash["price_usd"]);
+        var coin_total = coin_value * coin_quantity
         total_hash.total += coin_total
         total_hash.coins.push(
           {
             name: coin_symbol,
             quantity: coin_quantity,
-            total: coin_total
+            total: coin_total,
+            value: coin_value
           }
         )
       }
     }
     return total_hash;
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (JSON.stringify(this.props) === JSON.stringify(nextProps)) {
+      return false;
+    }
+    return true
   }
 
   render() {
@@ -46,13 +56,16 @@ class PortfolioTotal extends Component {
 
     return (
       <div className="PortfolioValue">
-        ${total_hash.total.toFixed(2)}
-        <br/>
-        {table}
-        <br/>
-        {chart}
-        <br/>
-        * Supports up to 50 currencies at this time.
+        <div className="portfolio-total">
+          ${total_hash.total.toFixed(2)}
+        </div>
+        <div className="portfolio-table">
+          {table}
+        </div>
+        <div className="portfolio-chart">
+          {chart}
+        </div>
+        * Supports up to 40 currencies at this time.
       </div>
     );
   }

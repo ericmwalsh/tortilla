@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import ReactTable from 'react-table'
 import 'react-table/react-table.css'
 
-import ChartColors from './constants/colors'
-
+import './PortfolioTable.css';
 
 class PortfolioTable extends Component {
 
@@ -13,6 +12,10 @@ class PortfolioTable extends Component {
       {
         Header: "Symbol",
         accessor: "name"
+      },
+      {
+        Header: "Value (USD)",
+        accessor: "value"
       },
       {
         Header: "Quantity",
