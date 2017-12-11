@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
+
 import logo from './logo.svg';
 import './App.css';
+import './Table.css';
+
 
 import PortfolioTotal from './PortfolioTotal'
+import ExamplePortfolio from './constants/ExamplePortfolio'
 
 class App extends Component {
 
@@ -10,22 +14,26 @@ class App extends Component {
     super(props);
     this.state = {
       coins: [],
-      portfolio: []
+      portfolio: JSON.parse(this.examplePortfolio())
     }
   }
 
   search = () => {
     fetch('https://api.coinmarketcap.com/v1/ticker/?limit=0')
-      .then(response => response.json())
-      .then(
-        json => {
-          this.setState(
-            {
-              coins: json
-            }
-          );
-        }
-      );
+    .then(response => response.json())
+    .then(
+      json => {
+        this.setState(
+          {
+            coins: json
+          }
+        );
+      }
+    );
+  }
+
+  examplePortfolio = () => {
+    return ExamplePortfolio.data;
   }
 
   componentWillMount() {
@@ -53,6 +61,8 @@ class App extends Component {
   }
 
   render() {
+    const examplePortfolio = this.examplePortfolio();
+
     return (
       <div className="App">
         <header className="App-header">
@@ -60,7 +70,7 @@ class App extends Component {
           <h1 className="App-title">coinucop.io</h1>
         </header>
         <br/>
-        <textarea rows="30" cols="70" onChange={this.handleChange} />
+        <textarea rows="30" cols="70" onChange={this.handleChange} defaultValue={this.examplePortfolio()} />
         <br/>
         <PortfolioTotal coins={this.state.coins} portfolio={this.state.portfolio}/>
       </div>

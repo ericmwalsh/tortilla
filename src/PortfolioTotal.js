@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import PortfolioChart from './PortfolioChart'
+import PortfolioTable from './PortfolioTable'
 
 class PortfolioTotal extends Component {
 
@@ -37,15 +38,21 @@ class PortfolioTotal extends Component {
     var total_hash = this.calculatePortfolioValue()
 
     let chart = null;
+    let table = null;
     if (total_hash.total > 0) {
       chart = <PortfolioChart total={total_hash.total} coins={total_hash.coins} />;
+      table = <PortfolioTable total={total_hash.total} coins={total_hash.coins} />;
     }
 
     return (
       <div className="PortfolioValue">
         ${total_hash.total.toFixed(2)}
         <br/>
+        {table}
+        <br/>
         {chart}
+        <br/>
+        * Supports up to 50 currencies at this time.
       </div>
     );
   }

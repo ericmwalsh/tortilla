@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Chart from 'chart.js'
 
-import ChartColors from './charts/constants'
+import ChartColors from './constants/colors'
 
 class PortfolioChart extends Component {
 
@@ -24,7 +24,7 @@ class PortfolioChart extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (JSON.stringify(this.props) == JSON.stringify(nextProps)) {
+    if (JSON.stringify(this.props) === JSON.stringify(nextProps)) {
       return false;
     }
     return true
@@ -67,8 +67,6 @@ class PortfolioChart extends Component {
       <div className="PortfolioChart">
         <canvas id="chart-area" ref="ChartArea">
         </canvas>
-        <br/>
-        * Supports up to 50 currencies at this time.
       </div>
     );
   }
