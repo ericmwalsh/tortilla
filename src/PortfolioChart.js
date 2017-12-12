@@ -8,6 +8,7 @@ class PortfolioChart extends Component {
 
   coinDataAndLabels() {
     var coins = this.props.coins.slice(0).sort((a,b) => b.total - a.total);
+    var colors = this.chartColors().slice(0, coins.length);
     var data = [];
     var labels = [];
 
@@ -18,6 +19,7 @@ class PortfolioChart extends Component {
       }
     )
     return {
+      colors: colors,
       data: data,
       labels: labels
     };
@@ -30,8 +32,10 @@ class PortfolioChart extends Component {
   componentDidUpdate() {
     var coinDataAndLabels = this.coinDataAndLabels();
 
+    document.pie.data.datasets[0].backgroundColor = coinDataAndLabels.colors;
     document.pie.data.datasets[0].data = coinDataAndLabels.data;
     document.pie.data.labels = coinDataAndLabels.labels;
+    document.pie.update();
   }
 
   chartColors() {
@@ -45,7 +49,7 @@ class PortfolioChart extends Component {
       data: {
         datasets: [{
           data: coinDataAndLabels.data,
-          backgroundColor: this.chartColors().slice(0, this.props.coins.length),
+          backgroundColor: coinDataAndLabels.colors,
           label: 'Portfolio'
         }],
         labels: coinDataAndLabels.labels
