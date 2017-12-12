@@ -48,7 +48,9 @@ class App extends Component {
 
   handleChange = (event) => {
     try {
-      var portfolio = JSON.parse(event.target.value);
+      var portfolio = JSON.parse(
+        event.target.value.replace(/[\u2018\u2019]/g, '"').replace(/[\u201C\u201D]/g, '"')
+      );
     } catch (e) {
       var portfolio = []
     }
