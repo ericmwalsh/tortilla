@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 
-import PortfolioChart from './PortfolioChart'
+import PortfolioPie from './PortfolioPie'
 import PortfolioTable from './PortfolioTable'
-import './Portfolio.css';
 
 class PortfolioTotal extends Component {
 
@@ -47,10 +46,10 @@ class PortfolioTotal extends Component {
   render() {
     var total_hash = this.calculatePortfolioValue()
 
-    let chart = null;
+    let pie = null;
     let table = null;
     if (total_hash.total > 0) {
-      chart = <PortfolioChart total={total_hash.total} coins={total_hash.coins} />;
+      pie = <PortfolioPie total={total_hash.total} coins={total_hash.coins} />;
       table = <PortfolioTable total={total_hash.total} coins={total_hash.coins} />;
     }
 
@@ -62,8 +61,8 @@ class PortfolioTotal extends Component {
         <div className="portfolio-table">
           {table}
         </div>
-        <div className="portfolio-chart">
-          {chart}
+        <div className="portfolio-pie">
+          {pie}
         </div>
         * Supports up to 40 currencies at this time.
       </div>

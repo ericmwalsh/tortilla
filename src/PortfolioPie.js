@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import Chart from 'chart.js'
 
-import ChartColors from './constants/colors'
-import './PortfolioChart.css';
+import Colors from './constants/colors'
+import './PortfolioPie.css';
 
-class PortfolioChart extends Component {
+class PortfolioPie extends Component {
 
   coinDataAndLabels() {
     var coins = this.props.coins.slice(0).sort((a,b) => b.total - a.total);
-    var colors = this.chartColors().slice(0, coins.length);
+    var colors = this.pieColors().slice(0, coins.length);
     var data = [];
     var labels = [];
 
@@ -26,7 +26,7 @@ class PortfolioChart extends Component {
   }
 
   componentDidMount() {
-    this.renderChart();
+    this.renderPie();
   }
 
   componentDidUpdate() {
@@ -38,11 +38,11 @@ class PortfolioChart extends Component {
     document.pie.update();
   }
 
-  chartColors() {
-    return ChartColors.rgba_codes.filter((element, index) => index % 3 === 0);
+  pieColors() {
+    return Colors.rgba_codes.filter((element, index) => index % 3 === 0);
   }
 
-  buildChartConfig() {
+  buildPieConfig() {
     var coinDataAndLabels = this.coinDataAndLabels();
     return {
       type: 'pie',
@@ -68,20 +68,20 @@ class PortfolioChart extends Component {
     }
   }
 
-  renderChart() {
-    var ctx = this.refs.ChartArea.getContext("2d");
-    var config = this.buildChartConfig();
+  renderPie() {
+    var ctx = this.refs.PieArea.getContext("2d");
+    var config = this.buildPieConfig();
     document.pie = new Chart(ctx, config);
   }
 
   render() {
     return (
-      <div className="PortfolioChart">
-        <canvas className="chart-area" ref="ChartArea">
+      <div className="PortfolioPie">
+        <canvas ref="PieArea">
         </canvas>
       </div>
     );
   }
 }
 
-export default PortfolioChart;
+export default PortfolioPie;

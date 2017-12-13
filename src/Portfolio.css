@@ -3,11 +3,20 @@
   padding: 20px 0;
 }
 
-.portfolio-chart {
+.portfolio-pie {
   background-color: lightsteelblue;
   padding: 20px 0;
 }
 
 .portfolio-table {
   padding: 20px 0;
+}
+
+.portfolio-entry {
+  width: 50%;
+  display: inline-block;
+}
+.portfolio-history {
+  width: 50%;
+  display: inline-block;
 }

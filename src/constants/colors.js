@@ -1,4 +1,4 @@
-const ChartColors = {
+const Colors = {
   colors: [
     "maroon",
     "dark-red",
@@ -259,4 +259,4 @@ const ChartColors = {
   ]
 }
 
-export default ChartColors;
+export default Colors;
