@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import PortfolioList from './PortfolioList'
 import PortfolioHistoryChart from './PortfolioHistoryChart'
 import PortfolioTotal from './PortfolioTotal'
 import ExamplePortfolio from './constants/ExamplePortfolio'
@@ -11,12 +12,30 @@ class Portfolio extends Component {
     super(props);
     this.state = {
       coins: [],
-      history: [],
-      portfolio: JSON.parse(this.examplePortfolio())
+      portfolio: {
+        history: [],
+        holdings: this.obtainHoldings(),
+        total: 0
+      }
     }
   }
 
-  search = () => {
+  obtainHoldings = () => {
+    var holdings = localStorage.getItem('portfolio.holdings');
+    if (holdings == null) {
+      holdings = this.examplePortfolio();
+    }
+    return holdings;
+  }
+
+  setPortfolioHoldings = (portfolio_holdings) => {
+    var portfolio = {...this.state.portfolio}
+    portfolio.holdings = portfolio_holdings;
+    this.setState({portfolio})
+    localStorage.setItem('portfolio.holdings', portfolio_holdings)
+  }
+
+  fetchCoinMarketCap = () => {
     fetch('https://api.coinmarketcap.com/v1/ticker/?limit=0')
     .then(response => response.json())
     .then(
@@ -38,33 +57,31 @@ class Portfolio extends Component {
           'Accept': 'application/json, text/plain, */*',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(this.state.portfolio)
+        body: JSON.stringify(this.state.portfolio.holdings)
       }
     )
     .then(response => response.json())
     .then(
       history => {
-        this.setState(
-          {
-            history: history.data
-          }
-        );
+        var portfolio = {...this.state.portfolio};
+        portfolio.history = history.data;
+        this.setState({portfolio});
       }
     );
   }
 
   examplePortfolio = () => {
-    return ExamplePortfolio.data;
+    return ExamplePortfolio.data0;
   }
 
   componentWillMount() {
-    this.search()
+    this.fetchCoinMarketCap()
     this.searchPortfolio()
   }
 
   componentDidMount() {
     setInterval(
-      () => this.search(),
+      () => this.fetchCoinMarketCap(),
       60000 // 1 min
     )
   }
@@ -110,25 +127,34 @@ class Portfolio extends Component {
   }
 
   render() {
-    const examplePortfolio = this.examplePortfolio();
-
-    let history_chart = null;
-    if (this.state.history != []) {
-      history_chart = <PortfolioHistoryChart coins={this.state.coins} portfolio={this.state.portfolio} history={this.state.history}/>
+    let portfolio_history_chart = null;
+    let portfolio_list = <PortfolioList
+                          coins={this.state.coins}
+                          holdings={this.state.portfolio.holdings}
+                          total={this.state.portfolio.total}
+                          handler={this.setPortfolioHoldings}
+                        />
+    if (this.state.coins != []) {
+      portfolio_history_chart = <PortfolioHistoryChart
+                                  history={this.state.portfolio.history}
+                                />
+      // portfolio_table
+      // portfolio_pie
+      // <PortfolioTotal coins={this.state.coins} portfolio={this.state.portfolio}/>
     }
 
     return (
       <div className="Portfolio">
-        Enter a profile, track its value.
+        Enter a portfolio, track its value.
         <br/>
-        <div className="portfolio-entry">
-          <textarea rows="35" cols="100" onChange={this.handleChange} defaultValue={this.examplePortfolio()} />
+        <div className="portfolio-list">
+          {portfolio_list}
         </div>
+        <br/>
         <div className="portfolio-history">
-          {history_chart}
+          {portfolio_history_chart}
         </div>
         <br/>
-        <PortfolioTotal coins={this.state.coins} portfolio={this.state.portfolio}/>
       </div>
     );
   }
