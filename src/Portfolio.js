@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Container, Row, Col } from 'reactstrap';
 
 import PortfolioList from './PortfolioList'
 import PortfolioHistoryChart from './PortfolioHistoryChart'
@@ -13,8 +14,8 @@ class Portfolio extends Component {
     this.state = {
       coins: [],
       portfolio: {
-        history: [],
         holdings: this.obtainHoldings(),
+        list: [],
         total: 0
       }
     }
@@ -40,34 +41,52 @@ class Portfolio extends Component {
     .then(response => response.json())
     .then(
       json => {
+        var list_and_total = this.generatePortfolioListAndTotal(json);
         this.setState(
           {
-            coins: json
+            coins: json,
+            portfolio: {
+              holdings: this.state.portfolio.holdings,
+              list: list_and_total[0],
+              total: list_and_total[1]
+            }
           }
         );
       }
     );
   }
 
-  searchPortfolio = () => {
-    fetch('https://ror-crypto-portfolio.herokuapp.com/calculate_month',
-      {
-        method: 'post',
-        headers: {
-          'Accept': 'application/json, text/plain, */*',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(this.state.portfolio.holdings)
+  generatePortfolioListAndTotal = (coins) => {
+    //
+    var list = [];
+    var total = 0;
+
+    for(var currency in this.state.portfolio.holdings) {
+      var coin_hash = coins.find(
+        (coin) => {
+          return coin.symbol === currency;
+        }
+      )
+
+      if (coin_hash) {
+        var portfolio_coin_hash = {
+          name: coin_hash.name,
+          symbol: currency,
+          amount: this.state.portfolio.holdings[currency],
+          price: parseFloat(coin_hash.price_usd),
+          change: coin_hash.percentage_change_1h,
+          value: this.state.portfolio.holdings[currency] * coin_hash.price_usd
+        }
+
+        list.push(portfolio_coin_hash);
+        total += portfolio_coin_hash.value
       }
-    )
-    .then(response => response.json())
-    .then(
-      history => {
-        var portfolio = {...this.state.portfolio};
-        portfolio.history = history.data;
-        this.setState({portfolio});
-      }
-    );
+    }
+
+    return [
+      list,
+      total
+    ]
   }
 
   examplePortfolio = () => {
@@ -76,7 +95,7 @@ class Portfolio extends Component {
 
   componentWillMount() {
     this.fetchCoinMarketCap()
-    this.searchPortfolio()
+    // this.searchPortfolio()
   }
 
   componentDidMount() {
@@ -86,76 +105,30 @@ class Portfolio extends Component {
     )
   }
 
-  handleChange = (event) => {
-    try {
-      var text_value = event.target.value.replace(/[\u2018\u2019]/g, '"').replace(/[\u201C\u201D]/g, '"');
-      var portfolio = JSON.parse(text_value);
-
-      fetch('https://ror-crypto-portfolio.herokuapp.com/calculate_month',
-        {
-          method: 'post',
-          headers: {
-            'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(portfolio)
-        }
-      )
-      .then(response => response.json())
-      .then(
-        history => {
-          this.setState(
-            {
-              portfolio: portfolio,
-              history: history.data
-            }
-          );
-        }
-      );
-
-    } catch (e) {
-      var portfolio = [];
-      var history = [];
-
-      this.setState(
-        {
-          portfolio: portfolio,
-          history: history
-        }
-      )
-    }
-  }
-
   render() {
-    let portfolio_history_chart = null;
-    let portfolio_list = <PortfolioList
-                          coins={this.state.coins}
-                          holdings={this.state.portfolio.holdings}
-                          total={this.state.portfolio.total}
-                          handler={this.setPortfolioHoldings}
-                        />
-    if (this.state.coins != []) {
-      portfolio_history_chart = <PortfolioHistoryChart
-                                  history={this.state.portfolio.history}
-                                />
-      // portfolio_table
-      // portfolio_pie
-      // <PortfolioTotal coins={this.state.coins} portfolio={this.state.portfolio}/>
-    }
-
     return (
-      <div className="Portfolio">
-        Enter a portfolio, track its value.
-        <br/>
-        <div className="portfolio-list">
-          {portfolio_list}
-        </div>
-        <br/>
-        <div className="portfolio-history">
-          {portfolio_history_chart}
-        </div>
-        <br/>
-      </div>
+      <Container className="portfolio">
+        <Row>
+          <Col>Enter a portfolio, track its value.</Col>
+        </Row>
+        <Row>
+          <Col xs="7">
+            <div className="portfolio-history">
+              <PortfolioHistoryChart
+                holdings={this.state.portfolio.holdings}
+              />
+            </div>
+          </Col>
+          <Col xs="5">
+            <PortfolioList
+              list={this.state.portfolio.list}
+              holdings={this.state.portfolio.holdings}
+              total={this.state.portfolio.total}
+              setPortfolioHoldings={this.setPortfolioHoldings}
+            />
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }

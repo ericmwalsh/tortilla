@@ -6,14 +6,42 @@ import Colors from './constants/colors'
 
 class PortfolioHistoryChart extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      history: []
+    }
+  }
+
   componentDidMount() {
-    if (this.props.history != []) {
+    if (this.state.history != []) {
       this.renderPie();
     }
   }
 
+  searchPortfolio = () => {
+    fetch('https://ror-crypto-portfolio.herokuapp.com/calculate_month',
+      {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.state.portfolio.holdings)
+      }
+    )
+    .then(response => response.json())
+    .then(
+      history => {
+        var portfolio = {...this.state.portfolio};
+        portfolio.history = history.data;
+        this.setState({portfolio});
+      }
+    );
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
-    if (JSON.stringify(this.props.history) === JSON.stringify(nextProps.history)) {
+    if (JSON.stringify(this.state.history) === JSON.stringify(nextProps.history)) {
       return false;
     }
     return true
@@ -24,7 +52,7 @@ class PortfolioHistoryChart extends Component {
       x: [],
       y: []
     };
-    this.props.history.forEach(
+    this.state.history.forEach(
       (prop) => {
         formattedHistory.x.push((new Date(parseFloat(`${prop[0]}000`))).toLocaleDateString("en-US"));
         formattedHistory.y.push(prop[1]);
@@ -53,7 +81,7 @@ class PortfolioHistoryChart extends Component {
       x: [],
       y: []
     };
-    this.props.history.forEach(
+    this.state.history.forEach(
       (prop) => {
         formattedHistory.x.push((new Date(parseFloat(`${prop[0]}000`))).toLocaleDateString("en-US"));
         formattedHistory.y.push(prop[1]);
