@@ -8,8 +8,16 @@ class PortfolioHistoryChart extends Component {
 
   // holdings={this.state.portfolio.holdings}
 
+  constructor(props) {
+    super(props);
+    // this.state = {
+    //   holdings: []
+    // };
+  }
+
   componentDidMount() {
     this.renderHistoryChart();
+    this.searchPortfolio();
   }
 
   searchPortfolio = () => {
@@ -57,6 +65,15 @@ class PortfolioHistoryChart extends Component {
         document.historyChart.update();
       }
     );
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (JSON.stringify(nextProps) === JSON.stringify(this.props)) {
+      return false;
+    }
+    else {
+      return true;
+    }
   }
 
   componentDidUpdate() {
