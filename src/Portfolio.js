@@ -130,20 +130,20 @@ class Portfolio extends Component {
           <Col>Enter a portfolio, track its value.</Col>
         </Row>
         <Row>
-          <Col xs="7">
-            <div className="portfolio-pie">
-              <PortfolioPie
-                list={this.state.portfolio.list}
-              />
-            </div>
-          </Col>
-          <Col xs="5">
+          <Col xs="12" sm="5" className="order-sm-2">
             <PortfolioList
               list={this.state.portfolio.list}
               holdings={this.state.portfolio.holdings}
               total={this.state.portfolio.total}
               setPortfolioHoldings={this.setPortfolioHoldings}
             />
+          </Col>
+          <Col xs="12" sm="7">
+            <div className="portfolio-pie">
+              <PortfolioPie
+                list={this.state.portfolio.list}
+              />
+            </div>
           </Col>
         </Row>
         <Row>
