@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import Chart from 'chart.js'
 
 import Colors from './constants/colors'
-// import './PortfolioHistoryChart.css';
+import './PortfolioHistoryChart.css';
 
 class PortfolioHistoryChart extends Component {
 
+  // holdings={this.state.portfolio.holdings}
   constructor(props) {
     super(props);
     this.state = {
@@ -14,10 +15,17 @@ class PortfolioHistoryChart extends Component {
   }
 
   componentDidMount() {
-    if (this.state.history != []) {
-      this.renderPie();
-    }
+    this.renderHistoryChart();
   }
+
+  // componentDidUpdate() {
+  //   var coinDataAndLabels = this.coinDataAndLabels();
+
+  //   document.pie.data.datasets[0].backgroundColor = coinDataAndLabels.colors;
+  //   document.pie.data.datasets[0].data = coinDataAndLabels.data;
+  //   document.pie.data.labels = coinDataAndLabels.labels;
+  //   document.pie.update();
+  // }
 
   searchPortfolio = () => {
     fetch('https://ror-crypto-portfolio.herokuapp.com/calculate_month',
@@ -27,24 +35,19 @@ class PortfolioHistoryChart extends Component {
           'Accept': 'application/json, text/plain, */*',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(this.state.portfolio.holdings)
+        body: JSON.stringify(this.props.holdings)
       }
     )
     .then(response => response.json())
     .then(
       history => {
-        var portfolio = {...this.state.portfolio};
-        portfolio.history = history.data;
-        this.setState({portfolio});
+        this.setState(
+          {
+            history: history.data
+          }
+        );
       }
     );
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    if (JSON.stringify(this.state.history) === JSON.stringify(nextProps.history)) {
-      return false;
-    }
-    return true
   }
 
   componentDidUpdate() {
@@ -72,10 +75,6 @@ class PortfolioHistoryChart extends Component {
     document.historyChart.update();
   }
 
-  pieColors() {
-    return Colors.rgba_codes.filter((element, index) => index % 3 === 0);
-  }
-
   buildHistoryChartConfig() {
     var formattedHistory = {
       x: [],
@@ -99,21 +98,26 @@ class PortfolioHistoryChart extends Component {
         ]
       },
       options: {
-        responsive: true
+        responsive: true,
+        maintainAspectRatio: false
       }
     }
   }
 
-  renderPie() {
+  renderHistoryChart() {
     var ctx = this.refs.HistoryChartArea.getContext("2d");
     var config = this.buildHistoryChartConfig();
     document.historyChart = new Chart(ctx, config);
   }
 
+  componentWillMount() {
+    this.searchPortfolio()
+  }
+
   render() {
     return (
       <div className="PortfolioHistoryChart">
-        <canvas ref="HistoryChartArea">
+        <canvas ref="HistoryChartArea" height="400px">
         </canvas>
       </div>
     );

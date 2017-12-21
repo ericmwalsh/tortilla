@@ -4,6 +4,51 @@ import { Button, Input, InputGroupAddon, InputGroup, Col, Row } from 'reactstrap
 import './PortfolioListItem.css';
 
 class PortfolioListItem extends Component {
+  // name={holding.name}
+  // symbol={holding.symbol}
+  // amount={holding.amount}
+  // price={holding.price}
+  // value={holding.value}
+  // percent={100 * holding.value / this.props.total}
+  // editable={this.state.editable}
+  // removeCurrency={this.removeCurrency}
+  // updateCurrency={this.addCurrency}
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      amount: ''
+    };
+  }
+
+  setAmount = (evt) => {
+    this.setState({
+      amount: (evt.target.value == '' ? '' : parseFloat(evt.target.value))
+    });
+  }
+
+  updateCurrency = () => {
+    if (this.state.amount == 0) {
+      this.removeCurrency();
+    }
+    if (this.state.amount != '') {
+      this.props.updateCurrency(this.props.symbol, this.state.amount);
+      setTimeout(
+        () => {
+          this.setState(
+            {
+              amount: ''
+            }
+          )
+        },
+        100
+      );
+    }
+  }
+
+  removeCurrency = () => {
+    this.props.removeCurrency(this.props.symbol);
+  }
 
   render() {
     if (this.props.editable) {
@@ -11,32 +56,32 @@ class PortfolioListItem extends Component {
         <Row>
           <InputGroup className="col-10 currency-input">
             <InputGroupAddon>{this.props.symbol}</InputGroupAddon>
-            <Input placeholder={this.props.amount} />
+            <Input placeholder={this.props.amount} value={this.state.amount} onChange={this.setAmount} type="number" step=".000001" />
           </InputGroup>
-          <Button className="col-1" outline color="success" onClick={1}>✓</Button>
-          <Button className="col-1" outline color="danger">X</Button>
+          <Button className="col-1" outline color="success" onClick={this.updateCurrency}>✓</Button>
+          <Button className="col-1" outline color="danger" onClick={this.removeCurrency}>X</Button>
         </Row>
     }
     else {
       var portfolio_list_item =
         <Row>
-          <Col>
+          <Col xs="5">
             {this.props.name}
           </Col>
-          <Col>
+          <Col xs="3">
             {this.props.amount}
           </Col>
-          <Col>
+          <Col xs="4">
             {`$${this.props.value.toFixed(2)}`}
           </Col>
           <div className="w-100"></div>
-          <Col>
+          <Col xs="5">
             {this.props.symbol}
           </Col>
-          <Col>
+          <Col xs="3">
             {`$${this.props.price.toFixed(2)}`}
           </Col>
-          <Col>
+          <Col xs="4">
             {`${this.props.percent.toFixed(2)}%`}
           </Col>
         </Row>

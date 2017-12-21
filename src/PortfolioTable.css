@@ -1,3 +1,7 @@
+.portfolio-table {
+  width: 100%;
+}
+
 .rt-tr.-even {
   background-color: rgba(220,220,220,1);
 }

@@ -3,7 +3,8 @@ import { Container, Row, Col } from 'reactstrap';
 
 import PortfolioList from './PortfolioList'
 import PortfolioHistoryChart from './PortfolioHistoryChart'
-import PortfolioTotal from './PortfolioTotal'
+import PortfolioPie from './PortfolioPie'
+import PortfolioTable from './PortfolioTable'
 import ExamplePortfolio from './constants/ExamplePortfolio'
 import './Portfolio.css';
 
@@ -22,7 +23,7 @@ class Portfolio extends Component {
   }
 
   obtainHoldings = () => {
-    var holdings = localStorage.getItem('portfolio.holdings');
+    var holdings = JSON.parse(localStorage.getItem('portfolio.holdings'));
     if (holdings == null) {
       holdings = this.examplePortfolio();
     }
@@ -31,9 +32,16 @@ class Portfolio extends Component {
 
   setPortfolioHoldings = (portfolio_holdings) => {
     var portfolio = {...this.state.portfolio}
-    portfolio.holdings = portfolio_holdings;
-    this.setState({portfolio})
-    localStorage.setItem('portfolio.holdings', portfolio_holdings)
+    var list_and_total = this.generatePortfolioListAndTotal(this.state.coins, portfolio_holdings);
+
+    if (JSON.stringify(this.state.portfolio.list) != JSON.stringify(list_and_total[0])) {
+      portfolio.holdings = portfolio_holdings;
+      portfolio.list = list_and_total[0]
+      portfolio.total = list_and_total[1]
+
+      this.setState({portfolio})
+      localStorage.setItem('portfolio.holdings', JSON.stringify(portfolio_holdings))
+    }
   }
 
   fetchCoinMarketCap = () => {
@@ -41,27 +49,29 @@ class Portfolio extends Component {
     .then(response => response.json())
     .then(
       json => {
-        var list_and_total = this.generatePortfolioListAndTotal(json);
-        this.setState(
-          {
-            coins: json,
-            portfolio: {
-              holdings: this.state.portfolio.holdings,
-              list: list_and_total[0],
-              total: list_and_total[1]
+        var list_and_total = this.generatePortfolioListAndTotal(json, this.state.portfolio.holdings);
+        if (JSON.stringify(this.state.portfolio.list) != JSON.stringify(list_and_total[0])) {
+          this.setState(
+            {
+              coins: json,
+              portfolio: {
+                holdings: this.state.portfolio.holdings,
+                list: list_and_total[0],
+                total: list_and_total[1]
+              }
             }
-          }
-        );
+          );
+        }
       }
     );
   }
 
-  generatePortfolioListAndTotal = (coins) => {
+  generatePortfolioListAndTotal = (coins, holdings) => {
     //
     var list = [];
     var total = 0;
 
-    for(var currency in this.state.portfolio.holdings) {
+    for(var currency in holdings) {
       var coin_hash = coins.find(
         (coin) => {
           return coin.symbol === currency;
@@ -72,10 +82,12 @@ class Portfolio extends Component {
         var portfolio_coin_hash = {
           name: coin_hash.name,
           symbol: currency,
-          amount: this.state.portfolio.holdings[currency],
+          amount: holdings[currency],
           price: parseFloat(coin_hash.price_usd),
-          change: coin_hash.percentage_change_1h,
-          value: this.state.portfolio.holdings[currency] * coin_hash.price_usd
+          change_h: parseFloat(coin_hash.percent_change_1h),
+          change_d: parseFloat(coin_hash.percent_change_24h),
+          change_w: parseFloat(coin_hash.percent_change_7d),
+          value: holdings[currency] * parseFloat(coin_hash.price_usd)
         }
 
         list.push(portfolio_coin_hash);
@@ -95,7 +107,6 @@ class Portfolio extends Component {
 
   componentWillMount() {
     this.fetchCoinMarketCap()
-    // this.searchPortfolio()
   }
 
   componentDidMount() {
@@ -103,6 +114,10 @@ class Portfolio extends Component {
       () => this.fetchCoinMarketCap(),
       60000 // 1 min
     )
+  }
+
+  componentDidUpdate() {
+    // this.fetchCoinMarketCap();
   }
 
   render() {
@@ -113,9 +128,9 @@ class Portfolio extends Component {
         </Row>
         <Row>
           <Col xs="7">
-            <div className="portfolio-history">
-              <PortfolioHistoryChart
-                holdings={this.state.portfolio.holdings}
+            <div className="portfolio-pie">
+              <PortfolioPie
+                list={this.state.portfolio.list}
               />
             </div>
           </Col>
@@ -127,6 +142,18 @@ class Portfolio extends Component {
               setPortfolioHoldings={this.setPortfolioHoldings}
             />
           </Col>
+        </Row>
+        <Row>
+          <PortfolioTable
+            list={this.state.portfolio.list}
+          />
+        </Row>
+        <Row>
+          <div className="portfolio-history">
+            <PortfolioHistoryChart
+              holdings={this.state.portfolio.holdings}
+            />
+          </div>
         </Row>
       </Container>
     );

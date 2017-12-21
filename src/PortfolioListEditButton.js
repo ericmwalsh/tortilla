@@ -4,28 +4,54 @@ import { Button, Input, Col, Form, Row } from 'reactstrap';
 import './PortfolioListEditButton.css';
 
 class PortfolioListEditButton extends Component {
+  // addCurrency={this.addCurrency}
+  // toggleEditable={this.toggleEditable}
+  // editable={this.state.editable}
 
   constructor(props) {
     super(props);
     this.state = {
-      addable: false
+      addable: false,
+      currency: '',
+      amount: ''
     };
   }
 
   toggleAddable = () => {
     this.setState(
       {
-        addable: !this.state.addable
+        addable: !this.state.addable,
+        currency: '',
+        amount: ''
       }
     )
+  }
+
+  addCurrencyToPortfolio = () => {
+    if (this.state.currency != '' && this.state.amount != '') {
+      this.props.addCurrency(this.state.currency, this.state.amount)
+      this.toggleAddable();
+    }
+  }
+
+  setAmount = (evt) => {
+    this.setState({
+      amount: parseFloat(evt.target.value)
+    });
+  }
+
+  setCurrency = (evt) => {
+    this.setState({
+      currency: evt.target.value
+    });
   }
 
   render() {
     if(this.state.addable) {
       var portfolio_list_edit_button = <Row>
-        <Input className="col-5" placeholder="Coin" />
-        <Input className="col-5" placeholder="Amount" type="number" step=".000001" />
-        <Button className="col-1" outline color="success" onClick={1}>✓</Button>
+        <Input className="col-5" value={this.state.currency} onChange={this.setCurrency} placeholder="Coin" />
+        <Input className="col-5" value={this.state.amount} onChange={this.setAmount} placeholder="Amount" type="number" step=".000001" />
+        <Button className="col-1" outline color="success" onClick={this.addCurrencyToPortfolio}>✓</Button>
         <Button className="col-1" outline color="danger" onClick={this.toggleAddable}>X</Button>
       </Row>
     }
@@ -48,9 +74,5 @@ class PortfolioListEditButton extends Component {
   }
 }
 
-// <Col>
-// </Col>
-// <Col>
-// </Col>
 
 export default PortfolioListEditButton;

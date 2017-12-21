@@ -7,15 +7,15 @@ import './PortfolioPie.css';
 class PortfolioPie extends Component {
 
   coinDataAndLabels() {
-    var coins = this.props.coins.slice(0).sort((a,b) => b.total - a.total);
+    var coins = this.props.list.sort((a,b) => b.value - a.value);
     var colors = this.pieColors().slice(0, coins.length);
     var data = [];
     var labels = [];
 
     coins.forEach(
       (coin) => {
-        data.push(coin.total.toFixed(2));
-        labels.push(coin.name);
+        data.push(coin.value.toFixed(2));
+        labels.push(coin.symbol);
       }
     )
     return {
@@ -77,7 +77,7 @@ class PortfolioPie extends Component {
   render() {
     return (
       <div className="PortfolioPie">
-        <canvas ref="PieArea">
+        <canvas ref="PieArea" height="300">
         </canvas>
       </div>
     );

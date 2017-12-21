@@ -7,35 +7,47 @@ import './PortfolioTable.css';
 class PortfolioTable extends Component {
 
   render() {
-    const data = this.props.coins
+    const data = this.props.list
     const columns = [
       {
         Header: "Symbol",
-        accessor: "name"
+        accessor: "symbol"
+      },
+      {
+        Header: "% Change (Hour)",
+        accessor: "change_h"
+      },
+      {
+        Header: "% Change (Day)",
+        accessor: "change_d"
+      },
+      {
+        Header: "% Change (Week)",
+        accessor: "change_w"
       },
       {
         Header: "Value (USD)",
-        accessor: "value"
+        accessor: "price"
       },
       {
         Header: "Quantity",
-        accessor: "quantity"
+        accessor: "amount"
       },
       {
         Header: "Total (USD)",
-        accessor: "total"
+        accessor: "value"
       }
     ]
     return (
-      <div className="PortfolioTable">
+      <div className="portfolio-table">
         <ReactTable
           data={data}
           columns={columns}
-          defaultPageSize={10}
+          defaultPageSize={25}
           className="-striped -highlight"
           defaultSorted={[
             {
-              id: "total",
+              id: "value",
               desc: true
             }
           ]}
