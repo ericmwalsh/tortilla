@@ -71,29 +71,32 @@ class Portfolio extends Component {
     var list = [];
     var total = 0;
 
-    for(var currency in holdings) {
-      var coin_hash = coins.find(
-        (coin) => {
-          return coin.symbol === currency;
-        }
-      )
+    holdings.forEach(
+      (holding, i) => {
+        var coin_hash = coins.find(
+          (coin) => {
+            return coin.symbol === holding[0];
+          }
+        )
 
-      if (coin_hash) {
-        var portfolio_coin_hash = {
-          name: coin_hash.name,
-          symbol: currency,
-          amount: holdings[currency],
-          price: parseFloat(coin_hash.price_usd),
-          change_h: parseFloat(coin_hash.percent_change_1h),
-          change_d: parseFloat(coin_hash.percent_change_24h),
-          change_w: parseFloat(coin_hash.percent_change_7d),
-          value: holdings[currency] * parseFloat(coin_hash.price_usd)
-        }
+        if (coin_hash) {
+          var portfolio_coin_hash = {
+            name: coin_hash.name,
+            symbol: holding[0],
+            amount: holding[1],
+            price: parseFloat(coin_hash.price_usd),
+            change_h: parseFloat(coin_hash.percent_change_1h),
+            change_d: parseFloat(coin_hash.percent_change_24h),
+            change_w: parseFloat(coin_hash.percent_change_7d),
+            value: holding[1] * parseFloat(coin_hash.price_usd),
+            order: i
+          }
 
-        list.push(portfolio_coin_hash);
-        total += portfolio_coin_hash.value
+          list.push(portfolio_coin_hash);
+          total += portfolio_coin_hash.value
+        }
       }
-    }
+    )
 
     return [
       list,

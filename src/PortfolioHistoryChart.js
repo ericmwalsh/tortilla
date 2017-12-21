@@ -13,6 +13,13 @@ class PortfolioHistoryChart extends Component {
   }
 
   searchPortfolio = () => {
+    var formatted_holdings = {};
+    this.props.holdings.forEach(
+      (holding) => {
+        formatted_holdings[holding[0]] = holding[1];
+      }
+    )
+
     fetch('https://ror-crypto-portfolio.herokuapp.com/calculate_month',
       {
         method: 'post',
@@ -20,7 +27,7 @@ class PortfolioHistoryChart extends Component {
           'Accept': 'application/json, text/plain, */*',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(this.props.holdings)
+        body: JSON.stringify(formatted_holdings)
       }
     )
     .then(response => response.json())

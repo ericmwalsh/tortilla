@@ -29,19 +29,18 @@ class PortfolioList extends Component {
 
   addCurrency = (currency, amount) => {
     var new_holdings = this.props.holdings
-    new_holdings[currency] = amount
+    new_holdings.push([currency, amount]);
     this.props.setPortfolioHoldings(new_holdings);
   }
 
   removeCurrency = (currency) => {
-    var new_holdings = this.props.holdings;
-    delete new_holdings[currency];
+    var new_holdings = this.props.holdings.filter(holding => holding[0] != currency);
     this.props.setPortfolioHoldings(new_holdings);
   }
 
   renderPortfolio = () => {
-    return this.props.list.map(
-      (holding) => {
+    return this.props.list.sort((a,b) => a.order - b.order).map(
+      (holding, i) => {
         return <PortfolioListItem
                 name={holding.name}
                 symbol={holding.symbol}
@@ -52,6 +51,7 @@ class PortfolioList extends Component {
                 editable={this.state.editable}
                 removeCurrency={this.removeCurrency}
                 updateCurrency={this.addCurrency}
+                key={i}
               />;
       }
     );
