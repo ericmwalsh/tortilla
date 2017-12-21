@@ -49,8 +49,8 @@ class Portfolio extends Component {
     .then(response => response.json())
     .then(
       json => {
-        var list_and_total = this.generatePortfolioListAndTotal(json, this.state.portfolio.holdings);
-        if (JSON.stringify(this.state.portfolio.list) != JSON.stringify(list_and_total[0])) {
+        if (JSON.stringify(json) != JSON.stringify(this.state.coins)) {
+          var list_and_total = this.generatePortfolioListAndTotal(json, this.state.portfolio.holdings);
           this.setState(
             {
               coins: json,
