@@ -17,7 +17,8 @@ class Portfolio extends Component {
       portfolio: {
         holdings: this.obtainHoldings(),
         list: [],
-        total: 0
+        total: 0,
+        currencySymbols: []
       }
     }
   }
@@ -38,6 +39,7 @@ class Portfolio extends Component {
       portfolio.holdings = portfolio_holdings;
       portfolio.list = list_and_total[0]
       portfolio.total = list_and_total[1]
+      portfolio.currencySymbols = list_and_total[2]
 
       this.setState({portfolio})
       localStorage.setItem('portfolio.holdings', JSON.stringify(portfolio_holdings))
@@ -57,7 +59,8 @@ class Portfolio extends Component {
               portfolio: {
                 holdings: this.state.portfolio.holdings,
                 list: list_and_total[0],
-                total: list_and_total[1]
+                total: list_and_total[1],
+                currencySymbols: list_and_total[2]
               }
             }
           );
@@ -100,7 +103,8 @@ class Portfolio extends Component {
 
     return [
       list,
-      total
+      total,
+      coins.map(coin => coin.symbol).sort()
     ]
   }
 
@@ -136,6 +140,7 @@ class Portfolio extends Component {
               holdings={this.state.portfolio.holdings}
               total={this.state.portfolio.total}
               setPortfolioHoldings={this.setPortfolioHoldings}
+              currencySymbols={this.state.portfolio.currencySymbols}
             />
           </Col>
           <Col xs="12" sm="7">

@@ -17,7 +17,6 @@ class PortfolioHistoryChart extends Component {
 
   componentDidMount() {
     this.renderHistoryChart();
-    this.searchPortfolio();
   }
 
   searchPortfolio = () => {
@@ -67,16 +66,7 @@ class PortfolioHistoryChart extends Component {
     );
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if (JSON.stringify(nextProps) === JSON.stringify(this.props)) {
-      return false;
-    }
-    else {
-      return true;
-    }
-  }
-
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
     this.searchPortfolio()
   }
 

@@ -7,6 +7,7 @@ class PortfolioListEditButton extends Component {
   // addCurrency={this.addCurrency}
   // toggleEditable={this.toggleEditable}
   // editable={this.state.editable}
+  // currencySymbols={this.props.currencySymbols}
 
   constructor(props) {
     super(props);
@@ -48,8 +49,15 @@ class PortfolioListEditButton extends Component {
 
   render() {
     if(this.state.addable) {
+      var currency_symbols = this.props.currencySymbols.map(
+        (symbol, i) => {
+          return <option key={i}>{symbol}</option>;
+        }
+      );
       var portfolio_list_edit_button = <Row>
-        <Input className="col-5" value={this.state.currency} onChange={this.setCurrency} placeholder="Coin" />
+        <Input className="col-5" value={this.state.currency} onChange={this.setCurrency} type="select">
+          {currency_symbols}
+        </Input>
         <Input className="col-5" value={this.state.amount} onChange={this.setAmount} placeholder="Amount" type="number" step=".000001" />
         <Button className="col-1" outline color="success" onClick={this.addCurrencyToPortfolio}>✓</Button>
         <Button className="col-1" outline color="danger" onClick={this.toggleAddable}>X</Button>
