@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'reactstrap';
 
-import PortfolioListItem from './PortfolioListItem'
-import PortfolioListEditButton from './PortfolioListEditButton'
-import './PortfolioList.css';
+import Item from './item'
+import EditButton from './edit_button'
+import './portfolio_list.css';
 
 class PortfolioList extends Component {
   // list={this.state.portfolio.list}
@@ -48,7 +48,7 @@ class PortfolioList extends Component {
   renderPortfolio = () => {
     return this.props.list.sort((a,b) => a.order - b.order).map(
       (holding, i) => {
-        return <PortfolioListItem
+        return <Item
                 name={holding.name}
                 symbol={holding.symbol}
                 amount={holding.amount}
@@ -91,7 +91,7 @@ class PortfolioList extends Component {
             {portfolio_holdings}
           </Row>
           <Row>
-            <PortfolioListEditButton
+            <EditButton
               addCurrency={this.addCurrency}
               toggleEditable={this.toggleEditable}
               editable={this.state.editable}

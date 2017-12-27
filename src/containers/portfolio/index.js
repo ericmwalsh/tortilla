@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 
-import PortfolioList from './PortfolioList'
-import PortfolioHistoryChart from './PortfolioHistoryChart'
-import PortfolioPie from './PortfolioPie'
-import PortfolioTable from './PortfolioTable'
-import ExamplePortfolio from './constants/ExamplePortfolio'
-import './Portfolio.css';
+import PortfolioList from '../../components/portfolio_list'
+import HistoryChart from '../../components/history_chart'
+import PieChart from '../../components/pie_chart'
+import SortableTable from '../../components/sortable_table'
+import ExamplePortfolio from '../../constants/ExamplePortfolio'
+import './portfolio.css';
 
 class Portfolio extends Component {
 
@@ -145,20 +145,20 @@ class Portfolio extends Component {
           </Col>
           <Col xs="12" sm="7">
             <div className="portfolio-pie">
-              <PortfolioPie
+              <PieChart
                 list={this.state.portfolio.list}
               />
             </div>
           </Col>
         </Row>
         <Row>
-          <PortfolioTable
+          <SortableTable
             list={this.state.portfolio.list}
           />
         </Row>
         <Row>
           <div className="portfolio-history">
-            <PortfolioHistoryChart
+            <HistoryChart
               holdings={this.state.portfolio.holdings}
             />
           </div>

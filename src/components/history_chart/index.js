@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Chart from 'chart.js'
 
-import Colors from './constants/colors'
-import './PortfolioHistoryChart.css';
+import Colors from '../../constants/colors'
+import './history_chart.css';
 
-class PortfolioHistoryChart extends Component {
+class HistoryChart extends Component {
 
   // holdings={this.state.portfolio.holdings}
 
@@ -105,4 +105,4 @@ class PortfolioHistoryChart extends Component {
   }
 }
 
-export default PortfolioHistoryChart;
+export default HistoryChart;

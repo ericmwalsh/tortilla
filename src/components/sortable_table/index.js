@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import ReactTable from 'react-table'
 import 'react-table/react-table.css'
 
-import './PortfolioTable.css';
+import './sortable_table.css';
 
-class PortfolioTable extends Component {
+class SortableTable extends Component {
 
   render() {
     const data = this.props.list
@@ -57,4 +57,4 @@ class PortfolioTable extends Component {
   }
 }
 
-export default PortfolioTable;
+export default SortableTable;

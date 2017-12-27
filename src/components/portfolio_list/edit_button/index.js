@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Button, Input, Col, Form, Row } from 'reactstrap';
 
-import './PortfolioListEditButton.css';
+import './edit_button.css';
 
-class PortfolioListEditButton extends Component {
+class EditButton extends Component {
   // addCurrency={this.addCurrency}
   // toggleEditable={this.toggleEditable}
   // editable={this.state.editable}
@@ -83,4 +83,4 @@ class PortfolioListEditButton extends Component {
 }
 
 
-export default PortfolioListEditButton;
+export default EditButton;

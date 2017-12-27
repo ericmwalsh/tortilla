@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Button, Input, InputGroupAddon, InputGroup, Col, Row } from 'reactstrap';
 
-import './PortfolioListItem.css';
+import './item.css';
 
-class PortfolioListItem extends Component {
+class Item extends Component {
   // name={holding.name}
   // symbol={holding.symbol}
   // amount={holding.amount}
@@ -94,4 +94,4 @@ class PortfolioListItem extends Component {
   }
 }
 
-export default PortfolioListItem;
+export default Item;

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Chart from 'chart.js'
 
-import Colors from './constants/colors'
-import './PortfolioPie.css';
+import Colors from '../../constants/colors'
+import './pie_chart.css';
 
-class PortfolioPie extends Component {
+class PieChart extends Component {
 
   coinDataAndLabels() {
     var coins = this.props.list.sort((a,b) => b.value - a.value);
@@ -84,4 +84,4 @@ class PortfolioPie extends Component {
   }
 }
 
-export default PortfolioPie;
+export default PieChart;

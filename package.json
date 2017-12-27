@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "auth0-js": "^9.0.1",
     "bootstrap": "^4.0.0-beta.2",
     "chart.js": "^2.7.1",
     "history": "^4.7.2",
