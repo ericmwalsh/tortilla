@@ -7,26 +7,30 @@ import {
   incrementAsync,
   decrement,
   decrementAsync
-} from '../../modules/counter'
+} from '../../actions'
 
-const Home = props => (
-  <div>
-    <h1>Home</h1>
-    <p>Count: {props.count}</p>
+class Home extends Component {
+  render() {
+    return(
+      <div>
+        <h1>Home</h1>
+        <p>Count: {this.props.count}</p>
 
-    <p>
-      <button onClick={props.increment} disabled={props.isIncrementing}>Increment</button>
-      <button onClick={props.incrementAsync} disabled={props.isIncrementing}>Increment Async</button>
-    </p>
+        <p>
+          <button onClick={this.props.increment} disabled={this.props.isIncrementing}>Increment</button>
+          <button onClick={this.props.incrementAsync} disabled={this.props.isIncrementing}>Increment Async</button>
+        </p>
 
-    <p>
-      <button onClick={props.decrement} disabled={props.isDecrementing}>Decrementing</button>
-      <button onClick={props.decrementAsync} disabled={props.isDecrementing}>Decrement Async</button>
-    </p>
+        <p>
+          <button onClick={this.props.decrement} disabled={this.props.isDecrementing}>Decrementing</button>
+          <button onClick={this.props.decrementAsync} disabled={this.props.isDecrementing}>Decrement Async</button>
+        </p>
 
-    <p><button onClick={() => props.changePage()}>Go to about page via redux</button></p>
-  </div>
-)
+        <p><button onClick={() => this.props.changePage()}>Go to about page via redux</button></p>
+      </div>
+    )
+  }
+}
 
 const mapStateToProps = state => ({
   count: state.counter.count,

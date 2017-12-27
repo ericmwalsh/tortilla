@@ -5,7 +5,7 @@ import PortfolioList from '../../components/portfolio_list'
 import HistoryChart from '../../components/history_chart'
 import PieChart from '../../components/pie_chart'
 import SortableTable from '../../components/sortable_table'
-import ExamplePortfolio from '../../constants/ExamplePortfolio'
+import ExamplePortfolio from '../../constants/example_portfolio'
 import './portfolio.css';
 
 class Portfolio extends Component {
