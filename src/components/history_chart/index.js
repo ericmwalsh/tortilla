@@ -27,7 +27,7 @@ class HistoryChart extends Component {
       }
     )
 
-    fetch('https://ror-crypto-portfolio.herokuapp.com/calculate_month',
+    fetch(`${process.env.REACT_APP_CRYPTO_PORTFOLIO_URL}calculate_month`,
       {
         method: 'post',
         headers: {

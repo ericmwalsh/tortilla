@@ -7,6 +7,7 @@ import Header from '../../components/header'
 import About from '../../components/about'
 import Home from '../home/'
 import Portfolio from '../portfolio'
+import withTracker from './with_tracker'
 
 class App extends Component {
 
@@ -16,8 +17,8 @@ class App extends Component {
         <Header />
         <br/>
         <main className="App-Main">
-          <Route exact path="/" component={Portfolio} />
-          <Route exact path="/about" component={About} />
+          <Route exact path="/" component={withTracker(Portfolio)} />
+          <Route exact path="/about" component={withTracker(About)} />
         </main>
       </div>
     )
