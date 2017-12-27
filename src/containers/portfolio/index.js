@@ -42,6 +42,7 @@ class Portfolio extends Component {
       portfolio.currencySymbols = list_and_total[2]
 
       this.setState({portfolio})
+      this.setDocumentTitle(list_and_total[1]);
       localStorage.setItem('portfolio.holdings', JSON.stringify(portfolio_holdings))
     }
   }
@@ -64,9 +65,14 @@ class Portfolio extends Component {
               }
             }
           );
+          this.setDocumentTitle(list_and_total[1]);
         }
       }
     );
+  }
+
+  setDocumentTitle = (title) => {
+    document.title = `$${title.toFixed(2)}`;
   }
 
   generatePortfolioListAndTotal = (coins, holdings) => {
