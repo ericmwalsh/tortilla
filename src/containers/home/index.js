@@ -25,8 +25,6 @@ class Home extends Component {
           <button onClick={this.props.decrement} disabled={this.props.isDecrementing}>Decrementing</button>
           <button onClick={this.props.decrementAsync} disabled={this.props.isDecrementing}>Decrement Async</button>
         </p>
-
-        <p><button onClick={() => this.props.changePage()}>Go to about page via redux</button></p>
       </div>
     )
   }
@@ -42,8 +40,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   increment,
   incrementAsync,
   decrement,
-  decrementAsync,
-  changePage: () => push('/about-us')
+  decrementAsync
 }, dispatch)
 
 export default connect(

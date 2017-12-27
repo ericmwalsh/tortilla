@@ -23,15 +23,15 @@ class Item extends Component {
 
   setAmount = (evt) => {
     this.setState({
-      amount: (evt.target.value == '' ? '' : parseFloat(evt.target.value))
+      amount: (evt.target.value === '' ? '' : parseFloat(evt.target.value))
     });
   }
 
   updateCurrency = () => {
-    if (this.state.amount == 0) {
+    if (this.state.amount === 0) {
       this.removeCurrency();
     }
-    if (this.state.amount != '') {
+    if (this.state.amount !== '') {
       this.props.updateCurrency(this.props.symbol, this.state.amount);
       setTimeout(
         () => {
