@@ -7,6 +7,7 @@ import Header from '../../components/header'
 import About from '../../components/about'
 import Home from '../home/'
 import Portfolio from '../portfolio'
+import PortfolioRedux from '../portfolio_redux'
 import withTracker from './with_tracker'
 
 class App extends Component {
@@ -18,6 +19,7 @@ class App extends Component {
         <br/>
         <main className="App-Main">
           <Route exact path="/" component={withTracker(Portfolio)} />
+          <Route exact path="/portfolio" component={withTracker(PortfolioRedux)} />
           <Route exact path="/about" component={withTracker(About)} />
         </main>
       </div>
