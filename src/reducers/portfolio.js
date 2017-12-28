@@ -92,6 +92,8 @@ export default (state = initialState, action) => {
       holdings.push([action.data.currency, action.data.amount]);
 
       var listAndTotal = determineListAndTotal(holdings, state.values);
+
+      localStorage.setItem('portfolio.holdings', JSON.stringify(holdings))
       setDocumentTitle(listAndTotal[1]);
       return {
         ...state,
@@ -107,6 +109,8 @@ export default (state = initialState, action) => {
                         .filter(holding => holding[0] !== action.data.currency);
 
       var listAndTotal = determineListAndTotal(holdings, state.values);
+
+      localStorage.setItem('portfolio.holdings', JSON.stringify(holdings))
       setDocumentTitle(listAndTotal[1]);
       return {
         ...state,
@@ -122,6 +126,8 @@ export default (state = initialState, action) => {
                         .map(holding => holding[0] === action.data.currency ? [action.data.currency, action.data.amount] : holding);
 
       var listAndTotal = determineListAndTotal(holdings, state.values);
+
+      localStorage.setItem('portfolio.holdings', JSON.stringify(holdings))
       setDocumentTitle(listAndTotal[1]);
       return {
         ...state,
