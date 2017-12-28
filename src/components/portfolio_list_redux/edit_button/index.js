@@ -4,9 +4,9 @@ import { Button, Input, Col, Form, Row } from 'reactstrap';
 import './edit_button.css';
 
 class EditButton extends Component {
-  // addCurrency={this.addCurrency}
-  // toggleEditable={this.toggleEditable}
-  // editable={this.state.editable}
+  // addHolding={this.props.addHolding}
+  // editList={this.props.editList}
+  // listEditable={this.props.listEditable}
   // currencySymbols={this.props.currencySymbols}
 
   constructor(props) {
@@ -30,7 +30,7 @@ class EditButton extends Component {
 
   addCurrencyToPortfolio = () => {
     if (this.state.currency != '' && this.state.amount != '') {
-      this.props.addCurrency(this.state.currency, this.state.amount)
+      this.props.addHolding(this.state.currency, this.state.amount)
       this.toggleAddable();
     }
   }
@@ -63,15 +63,15 @@ class EditButton extends Component {
         <Button className="col-1" outline color="danger" onClick={this.toggleAddable}>X</Button>
       </Row>
     }
-    else if (this.props.editable) {
+    else if (this.props.listEditable) {
       var portfolio_list_edit_button = <Row>
-        <Button outline color="info" onClick={this.props.toggleEditable} block>Done</Button>
+        <Button outline color="info" onClick={this.props.editList} block>Done</Button>
       </Row>
     }
     else {
       var portfolio_list_edit_button = <Row>
         <Button outline className="col-6" color="success" onClick={this.toggleAddable}>Add</Button>
-        <Button outline className="col-6" color="warning" onClick={this.props.toggleEditable}>Edit</Button>
+        <Button outline className="col-6" color="warning" onClick={this.props.editList}>Edit</Button>
       </Row>
     }
     return (

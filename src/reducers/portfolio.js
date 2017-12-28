@@ -17,10 +17,11 @@ function obtainHoldings() {
 }
 
 const initialState =  {
+  currencySymbols: [],
   history: [],
   holdings: obtainHoldings(),
   list: [],
-  list_editable: false,
+  listEditable: false,
   total: 0,
   values: []
 }
@@ -77,6 +78,7 @@ export default (state = initialState, action) => {
       setDocumentTitle(listAndTotal[1]);
       return {
         ...state,
+        currencySymbols: listAndTotal[2],
         list: listAndTotal[0],
         total: listAndTotal[1],
         values: values
@@ -86,8 +88,8 @@ export default (state = initialState, action) => {
       // action.data.currency, action.data.amount
       var holdings = state
                         .holdings
-                        .filter(holding => holding[0] !== action.data.currency)
-                        .push([action.data.currency, action.data.amount]);
+                        .filter(holding => holding[0] !== action.data.currency);
+      holdings.push([action.data.currency, action.data.amount]);
 
       var listAndTotal = determineListAndTotal(holdings, state.values);
       setDocumentTitle(listAndTotal[1]);
@@ -131,7 +133,7 @@ export default (state = initialState, action) => {
     case EDIT_LIST:
       return {
         ...state,
-        list_editable: !state.list_editable
+        listEditable: !state.listEditable
       }
 
     default:

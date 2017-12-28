@@ -10,9 +10,10 @@ class Item extends Component {
   // price={holding.price}
   // value={holding.value}
   // percent={100 * holding.value / this.props.total}
-  // editable={this.state.editable}
-  // removeCurrency={this.removeCurrency}
-  // updateCurrency={this.addCurrency}
+  // editable={this.props.listEditable}
+  // removeHolding={this.props.removeHolding}
+  // modifyHolding={this.props.modifyHolding}
+  // key={i}
 
   constructor(props) {
     super(props);
@@ -32,7 +33,7 @@ class Item extends Component {
       this.removeCurrency();
     }
     if (this.state.amount !== '') {
-      this.props.updateCurrency(this.props.symbol, this.state.amount);
+      this.props.modifyHolding(this.props.symbol, this.state.amount);
       setTimeout(
         () => {
           this.setState(
@@ -47,7 +48,7 @@ class Item extends Component {
   }
 
   removeCurrency = () => {
-    this.props.removeCurrency(this.props.symbol);
+    this.props.removeHolding(this.props.symbol);
   }
 
   render() {

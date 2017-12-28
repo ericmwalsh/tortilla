@@ -45,9 +45,10 @@ class PortfolioRedux extends Component {
         <Row>
           <Col xs="12" sm="5" className="order-sm-2">
             <PortfolioListRedux
+              currencySymbols={this.props.currencySymbols}
               holdings={this.props.holdings}
               list={this.props.list}
-              list_editable={this.props.list_editable}
+              listEditable={this.props.listEditable}
               total={this.props.total}
               addHolding={this.props.addHolding}
               removeHolding={this.props.removeHolding}
@@ -84,9 +85,10 @@ class PortfolioRedux extends Component {
 // </Row>
 
 const mapStateToProps = state => ({
+  currencySymbols: state.portfolio.currencySymbols,
   holdings: state.portfolio.holdings,
   list: state.portfolio.list,
-  list_editable: state.portfolio.list_editable,
+  listEditable: state.portfolio.listEditable,
   total: state.portfolio.total
 })
 

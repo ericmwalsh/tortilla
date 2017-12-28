@@ -3,12 +3,13 @@ import { Row, Col } from 'reactstrap';
 
 import Item from './item'
 import EditButton from './edit_button'
-import './portfolio_list_redux.css';
+import './portfolio_list.css';
 
 class PortfolioListRedux extends Component {
+  // currencySymbols={this.props.currencySymbols}
   // holdings={this.props.holdings}
   // list={this.props.list}
-  // list_editable={this.props.list_editable}
+  // listEditable={this.props.listEditable}
   // total={this.props.total}
   // addHolding={this.props.addHolding}
   // removeHolding={this.props.removeHolding}
@@ -25,9 +26,9 @@ class PortfolioListRedux extends Component {
                 price={holding.price}
                 value={holding.value}
                 percent={100 * holding.value / this.props.total}
-                editable={this.props.list_editable}
-                removeCurrency={this.props.removeHolding}
-                updateCurrency={this.props.modifyHolding}
+                editable={this.props.listEditable}
+                removeHolding={this.props.removeHolding}
+                modifyHolding={this.props.modifyHolding}
                 key={i}
               />;
       }
@@ -61,18 +62,17 @@ class PortfolioListRedux extends Component {
             {portfolio_holdings}
           </Row>
           <Row>
+            <EditButton
+              addHolding={this.props.addHolding}
+              editList={this.props.editList}
+              listEditable={this.props.listEditable}
+              currencySymbols={this.props.currencySymbols}
+            />
           </Row>
         </div>
       );
     }
   }
 }
-
-// <EditButton
-//   addCurrency={this.addCurrency}
-//   toggleEditable={this.toggleEditable}
-//   editable={this.state.editable}
-//   currencySymbols={this.props.currencySymbols}
-// />
 
 export default PortfolioListRedux;
