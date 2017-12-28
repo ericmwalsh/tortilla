@@ -56,33 +56,30 @@ class PortfolioRedux extends Component {
               editList={this.props.editList}
             />
           </Col>
+          <Col xs="12" sm="7">
+            <div className="portfolio-pie">
+              <PieChart
+                list={this.props.list}
+              />
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          <SortableTable
+            list={this.props.list}
+          />
+        </Row>
+        <Row>
+          <div className="portfolio-history">
+            <HistoryChart
+              holdings={this.props.holdings}
+            />
+          </div>
         </Row>
       </Container>
     );
   }
 }
-
-// <Col xs="12" sm="7">
-//   <div className="portfolio-pie">
-//     <PieChart
-//       list={this.state.portfolio.list}
-//     />
-//   </div>
-// </Col>
-
-
-// <Row>
-//   <SortableTable
-//     list={this.state.portfolio.list}
-//   />
-// </Row>
-// <Row>
-//   <div className="portfolio-history">
-//     <HistoryChart
-//       holdings={this.state.portfolio.holdings}
-//     />
-//   </div>
-// </Row>
 
 const mapStateToProps = state => ({
   currencySymbols: state.portfolio.currencySymbols,
