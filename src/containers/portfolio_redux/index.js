@@ -10,6 +10,7 @@ import './portfolio_redux.css';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {
+  ccpRefresh,
   cmcRefresh,
   addHolding,
   removeHolding,
@@ -26,6 +27,7 @@ import PortfolioListRedux from '../../components/portfolio_list_redux'
 class PortfolioRedux extends Component {
 
   componentWillMount() {
+    this.props.ccpRefresh()
     this.props.cmcRefresh()
   }
 
@@ -33,6 +35,10 @@ class PortfolioRedux extends Component {
     setInterval(
       () => this.props.cmcRefresh(),
       60000 // 1 min
+    )
+    setInterval(
+      () => this.props.ccpRefresh(),
+      3600000 // 1 hr
     )
   }
 
@@ -72,6 +78,7 @@ class PortfolioRedux extends Component {
         <Row>
           <div className="portfolio-history">
             <HistoryChart
+              history={this.props.history}
               holdings={this.props.holdings}
             />
           </div>
@@ -83,6 +90,7 @@ class PortfolioRedux extends Component {
 
 const mapStateToProps = state => ({
   currencySymbols: state.portfolio.currencySymbols,
+  history: state.portfolio.history,
   holdings: state.portfolio.holdings,
   list: state.portfolio.list,
   listEditable: state.portfolio.listEditable,
@@ -90,6 +98,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
+  ccpRefresh,
   cmcRefresh,
   addHolding,
   removeHolding,

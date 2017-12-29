@@ -1,5 +1,6 @@
 import ExamplePortfolio from '../constants/example_portfolio'
 import {
+  CCP_REFRESH,
   CMC_REFRESH,
   ADD_HOLDING,
   REMOVE_HOLDING,
@@ -18,7 +19,7 @@ function obtainHoldings() {
 
 const initialState =  {
   currencySymbols: [],
-  history: [],
+  history: {},
   holdings: obtainHoldings(),
   list: [],
   listEditable: false,
@@ -70,6 +71,12 @@ function setDocumentTitle(title) {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case CCP_REFRESH:
+      return {
+        ...state,
+        history: action.data.history
+      }
+
     case CMC_REFRESH:
       var holdings = state.holdings;
       var values = action.data.values;

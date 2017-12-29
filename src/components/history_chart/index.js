@@ -6,68 +6,66 @@ import './history_chart.css';
 
 class HistoryChart extends Component {
 
-  // holdings={this.state.portfolio.holdings}
-
-  constructor(props) {
-    super(props);
-    // this.state = {
-    //   holdings: []
-    // };
-  }
+  // history={this.props.history}
+  // holdings={this.props.holdings}
 
   componentDidMount() {
     this.renderHistoryChart();
   }
 
-  searchPortfolio = () => {
-    var formatted_holdings = {};
-    this.props.holdings.forEach(
-      (holding) => {
-        formatted_holdings[holding[0]] = holding[1];
-      }
-    )
+  updatePortfolio = () => {
+    var time_and_totals = {}
 
-    fetch(`${process.env.REACT_APP_CRYPTO_PORTFOLIO_URL}calculate_month`,
-      {
-        method: 'post',
-        headers: {
-          'Accept': 'application/json, text/plain, */*',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formatted_holdings)
-      }
-    )
-    .then(response => response.json())
-    .then(
-      history => {
-        var formattedHistory = {
-          x: [],
-          y: []
-        };
-        history.data.forEach(
-          (prop) => {
-            formattedHistory.x.push((new Date(parseFloat(`${prop[0]}000`))).toLocaleDateString("en-US"));
-            formattedHistory.y.push(prop[1]);
+    this.props.holdings.forEach(
+      function(holding) {
+        // currency, amount
+        // [ "BTC", 0.04307861 ]
+        this.props.history[`${holding[0]}`].forEach(
+          (holdingSnapshot) => {
+            // value, time
+            // [ 20689.26, 1512000000 ]
+            if (time_and_totals[holdingSnapshot[1]]) {
+              time_and_totals[holdingSnapshot[1]] += holdingSnapshot[0] * holding[1]
+            }
+            else {
+              time_and_totals[holdingSnapshot[1]] = holdingSnapshot[0] * holding[1]
+            }
           }
         )
+      },
+      this
+    )
 
-        document.historyChart.data = {
-          labels: formattedHistory.x,
-          datasets: [
-            {
-              label: 'Value (USD)',
-              backgroundColor: ["rgba(85,107,47,1)"],
-              data: formattedHistory.y
-            }
-          ]
-        };
-        document.historyChart.update();
+    var formattedHistory = {
+      x: [],
+      y: []
+    };
+
+    Object.keys(time_and_totals).sort().forEach(
+      (time) => {
+        formattedHistory.x.push((new Date(parseFloat(`${time}000`))).toLocaleDateString("en-US"));
+        formattedHistory.y.push(time_and_totals[time]);
       }
-    );
+    )
+
+    document.historyChart.data = {
+      labels: formattedHistory.x,
+      datasets: [
+        {
+          label: 'Value (USD)',
+          backgroundColor: ["rgba(85,107,47,1)"],
+          data: formattedHistory.y
+        }
+      ]
+    };
+    document.historyChart.update();
+
   }
 
   componentDidUpdate(prevProps, prevState) {
-    this.searchPortfolio()
+    if (this.props.holdings.length > 0 && Object.keys(this.props.history).length !== 0) {
+      this.updatePortfolio()
+    }
   }
 
   buildHistoryChartConfig() {

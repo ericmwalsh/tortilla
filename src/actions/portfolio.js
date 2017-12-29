@@ -1,8 +1,26 @@
+export const CCP_REFRESH='portfolio/CCP_REFRESH'
 export const CMC_REFRESH='portfolio/CMC_REFRESH'
 export const ADD_HOLDING='portfolio/ADD_HOLDING'
 export const REMOVE_HOLDING='portfolio/REMOVE_HOLDING'
 export const MODIFY_HOLDING='portfolio/MODIFY_HOLDING'
 export const EDIT_LIST='portfolio/EDIT_LIST'
+
+export const ccpRefresh = () => {
+  return dispatch => {
+    return fetch(`${process.env.REACT_APP_CRYPTO_PORTFOLIO_URL}aggregate_month`)
+    .then(response => response.json())
+    .then(
+      json => {
+        dispatch({
+          type: CCP_REFRESH,
+          data: {
+            history: json.data
+          }
+        })
+      }
+    );
+  }
+}
 
 export const cmcRefresh = () => {
   return dispatch => {
