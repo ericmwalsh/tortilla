@@ -45,7 +45,7 @@ class PortfolioRedux extends Component {
           <Col>Enter a portfolio, track its value.</Col>
         </Row>
         <Row>
-          <Col xs="12" sm="5" className="order-sm-2">
+          <Col xs="12" lg="5" className="order-lg-2">
             <PortfolioListRedux
               currencySymbols={this.props.currencySymbols}
               holdings={this.props.holdings}
@@ -58,7 +58,7 @@ class PortfolioRedux extends Component {
               editList={this.props.editList}
             />
           </Col>
-          <Col xs="12" sm="7">
+          <Col xs="12" lg="7">
             <div className="portfolio-pie">
               <PieChart
                 list={this.props.list}
