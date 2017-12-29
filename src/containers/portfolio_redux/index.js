@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 
-import PortfolioList from '../../components/portfolio_list'
+import PortfolioListRedux from '../../components/portfolio_list_redux'
 import HistoryChart from '../../components/history_chart'
 import PieChart from '../../components/pie_chart'
 import SortableTable from '../../components/sortable_table'
@@ -17,10 +17,6 @@ import {
   modifyHolding,
   editList
 } from '../../actions/portfolio'
-
-
-
-import PortfolioListRedux from '../../components/portfolio_list_redux'
 
 
 
