@@ -2,12 +2,6 @@
   width: 100%;
 }
 
-@media (max-width: 700px) {
-  .portfolio-table .ReactTable {
-    height: 600px;
-  }
-}
-
 .rt-tr.-even {
   background-color: rgba(220,220,220,1);
 }
