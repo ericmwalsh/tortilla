@@ -5,7 +5,6 @@ import './app.css';
 
 import Header from '../../components/header'
 import About from '../../components/about'
-import Home from '../home/'
 import PortfolioRedux from '../portfolio_redux'
 import withTracker from './with_tracker'
 

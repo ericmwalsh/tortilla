@@ -46,6 +46,17 @@ class PortfolioListRedux extends Component {
               $--
             </Col>
           </Row>
+          <Row className='portfolio-holdings'>
+            {portfolio_holdings}
+          </Row>
+          <Row>
+            <EditButton
+              addHolding={this.props.addHolding}
+              editList={this.props.editList}
+              listEditable={this.props.listEditable}
+              currencySymbols={this.props.currencySymbols}
+            />
+          </Row>
         </div>
       );
     }
