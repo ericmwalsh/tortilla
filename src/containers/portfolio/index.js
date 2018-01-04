@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 
-import PortfolioListRedux from '../../components/portfolio_list_redux'
+import PortfolioList from '../../components/portfolio_list'
 import HistoryChart from '../../components/history_chart'
 import PieChart from '../../components/pie_chart'
 import SortableTable from '../../components/sortable_table'
-import './portfolio_redux.css';
+import './portfolio.css';
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -20,7 +20,7 @@ import {
 
 
 
-class PortfolioRedux extends Component {
+class Portfolio extends Component {
 
   componentWillMount() {
     this.props.ccpRefresh()
@@ -46,7 +46,7 @@ class PortfolioRedux extends Component {
         </Row>
         <Row>
           <Col xs="12" lg="5" className="order-lg-2">
-            <PortfolioListRedux
+            <PortfolioList
               currencySymbols={this.props.currencySymbols}
               holdings={this.props.holdings}
               list={this.props.list}
@@ -105,4 +105,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(PortfolioRedux);
+)(Portfolio);

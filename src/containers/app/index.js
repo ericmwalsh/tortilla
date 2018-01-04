@@ -11,7 +11,7 @@ import AuthService from '../../utils/auth_service'
 
 import Header from '../../components/header'
 
-import PortfolioRedux from '../portfolio_redux'
+import Portfolio from '../portfolio'
 import About from '../../components/about'
 import NotFound from '../../components/not_found'
 
@@ -56,7 +56,7 @@ class App extends Component {
         <br/>
         <main className="App-Main">
           <Switch>
-            <Route exact path="/" component={withTracker(PortfolioRedux)} />
+            <Route exact path="/" component={withTracker(Portfolio)} />
             <Route exact path="/about" component={withTracker(About)} />
             <Route component={withTracker(NotFound)} />
           </Switch>

@@ -5,7 +5,7 @@ import Item from './item'
 import EditButton from './edit_button'
 import './portfolio_list.css';
 
-class PortfolioListRedux extends Component {
+class PortfolioList extends Component {
   // currencySymbols={this.props.currencySymbols}
   // holdings={this.props.holdings}
   // list={this.props.list}
@@ -86,4 +86,4 @@ class PortfolioListRedux extends Component {
   }
 }
 
-export default PortfolioListRedux;
+export default PortfolioList;
