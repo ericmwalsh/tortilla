@@ -22,12 +22,16 @@ class Header extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      isOpen: false
+    }
+
     this.toggle = this.toggle.bind(this);
   }
 
   toggle() {
     this.setState({
-      isOpen: !this.props.isOpen
+      isOpen: !this.state.isOpen
     });
   }
 
@@ -37,7 +41,7 @@ class Header extends Component {
         <Navbar color="faded" light expand="md">
           <NavbarBrand href="/">coinucop.io</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.props.isOpen} navbar>
+          <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
                 <Link to="/">
@@ -91,8 +95,7 @@ class Header extends Component {
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth,
-  isOpen: false
+  auth: state.auth
 });
 
 const mapDispatchToProps = dispatch => ({

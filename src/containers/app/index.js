@@ -33,6 +33,12 @@ class App extends Component {
         AuthService.setToken(authResult); // static method
         AuthService.setProfile(profile); // static method
         this.props.loginSuccess(profile);
+        setTimeout(
+          () => {
+            this.authService.lock.hide();
+          },
+          100
+        );
         return this.props.history.push({ pathname: '/' });
       });
     });
