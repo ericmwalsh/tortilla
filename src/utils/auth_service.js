@@ -1,27 +1,30 @@
 import Auth0Lock from 'auth0-lock';
-import jwtDecode from 'jwt-decode';
 
 export default class AuthService {
   constructor() {
     const config = {
-      AUTH0_CLIENT_ID: process.env.AUTH0_CLIENT_ID,
-      AUTH0_DOMAIN: process.env.AUTH0_DOMAIN,
-      REDIRECT_URL: 'http://localhost:3000/callback',
+      AUTH0_CLIENT_ID: process.env.REACT_APP_AUTH0_CLIENT_ID,
+      AUTH0_DOMAIN: process.env.REACT_APP_AUTH0_DOMAIN,
+      REDIRECT_URL: 'http://localhost:4000/callback',
     }
 
     // Configure Auth0 lock
-    this.lock = new Auth0Lock(config.AUTH0_CLIENT_ID, config.AUTH0_DOMAIN, {
-      auth: {
-        redirectUrl: config.REDIRECT_URL,
-        responseType: 'token',
-      },
-      theme: {
-        primaryColor: '#b81b1c',
-      },
-      languageDictionary: {
-        title: 'Coinucopio',
-      },
-    });
+    this.lock = new Auth0Lock(
+      config.AUTH0_CLIENT_ID,
+      config.AUTH0_DOMAIN,
+      {
+        auth: {
+          // redirectUrl: config.REDIRECT_URL,
+          responseType: 'token',
+        },
+        theme: {
+          primaryColor: '#b81b1c',
+        },
+        languageDictionary: {
+          title: 'Coinucopio',
+        },
+      }
+    );
     // Binds login functions to keep this context
     this.login = this.login.bind(this);
   }
@@ -45,7 +48,7 @@ export default class AuthService {
 
   static logout() {
     // Clear user token and profile data from window.localStorage
-    window.localStorage.removeItem('id_token');
+    window.localStorage.removeItem('auth0_token');
     window.localStorage.removeItem('profile');
   }
 
@@ -61,36 +64,27 @@ export default class AuthService {
     // Triggers profile_updated event to update the UI
   }
 
-  static setToken(idToken) {
+  static setToken(jsonToken) {
     // Saves user token to window.localStorage
-    window.localStorage.setItem('id_token', idToken);
+    window.localStorage.setItem(
+      'auth0_token',
+      JSON.stringify(Object.assign(jsonToken, {expiresAt: jsonToken.expiresIn * 1000 + Date.now()}))
+    );
   }
 
   static getToken() {
     // Retrieves the user token from window.localStorage
-    return window.localStorage.getItem('id_token');
-  }
-
-  static getTokenExpirationDate() {
-    const token = AuthService.getToken();
-    const decoded = jwtDecode(token);
-    if (!decoded.exp) {
-      return null;
-    }
-
-    const date = new Date(0); // The 0 here is the key, which sets the date to the epoch
-    date.setUTCSeconds(decoded.exp);
-    return date;
+    const auth0_token = window.localStorage.getItem('auth0_token');
+    return auth0_token ? JSON.parse(window.localStorage.auth0_token) : {};
   }
 
   static isTokenExpired() {
     const token = AuthService.getToken();
     if (!token) return true;
-    const date = AuthService.getTokenExpirationDate();
-    const offsetSeconds = 0;
-    if (date === null) {
-      return false;
-    }
-    return !(date.valueOf() > (new Date().valueOf() + (offsetSeconds * 1000)));
+
+    const date = new Date(0);
+    date.setUTCSeconds(token.expiresAt);
+
+    return !(date.valueOf() > (new Date().valueOf()));
   }
 }
