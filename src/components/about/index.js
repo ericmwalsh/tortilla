@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import logo from './login_logo.png'
 
 class About extends Component {
   render() {
@@ -14,6 +15,9 @@ class About extends Component {
         <br />
         <br />
         <p>API: CoinMarketCap</p>
+        <br />
+        <br />
+        <img src={logo} alt="Logo" />
       </div>
     );
   }
