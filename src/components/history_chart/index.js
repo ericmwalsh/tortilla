@@ -20,18 +20,20 @@ class HistoryChart extends Component {
       function(holding) {
         // currency, amount
         // [ "BTC", 0.04307861 ]
-        this.props.history[`${holding[0]}`].forEach(
-          (holdingSnapshot) => {
-            // value, time
-            // [ 20689.26, 1512000000 ]
-            if (time_and_totals[holdingSnapshot[1]]) {
-              time_and_totals[holdingSnapshot[1]] += holdingSnapshot[0] * holding[1]
+        if (this.props.history[`${holding[0]}`]) {
+          this.props.history[`${holding[0]}`].forEach(
+            (holdingSnapshot) => {
+              // value, time
+              // [ 20689.26, 1512000000 ]
+              if (time_and_totals[holdingSnapshot[1]]) {
+                time_and_totals[holdingSnapshot[1]] += holdingSnapshot[0] * holding[1]
+              }
+              else {
+                time_and_totals[holdingSnapshot[1]] = holdingSnapshot[0] * holding[1]
+              }
             }
-            else {
-              time_and_totals[holdingSnapshot[1]] = holdingSnapshot[0] * holding[1]
-            }
-          }
-        )
+          )
+        }
       },
       this
     )
