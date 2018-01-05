@@ -81,7 +81,7 @@ class Header extends Component {
                 </button>
               }
               {this.props.auth.error &&
-                <p>{this.props.auth.error}</p>
+                <p>{this.props.auth.error.error} : {this.props.auth.error.errorDescription}</p>
               }
             </Nav>
           </Collapse>

@@ -3,26 +3,31 @@ import Auth0Lock from 'auth0-lock';
 export default class AuthService {
   constructor() {
     const config = {
-      AUTH0_CLIENT_ID: process.env.REACT_APP_AUTH0_CLIENT_ID,
-      AUTH0_DOMAIN: process.env.REACT_APP_AUTH0_DOMAIN,
+      CLIENT_ID: process.env.REACT_APP_AUTH0_CLIENT_ID,
+      DOMAIN: process.env.REACT_APP_AUTH0_DOMAIN,
       REDIRECT_URL: 'http://localhost:4000/callback',
+      LOGO_URL: process.env.REACT_APP_AUTH0_LOGO_URL
     }
 
     // Configure Auth0 lock
     this.lock = new Auth0Lock(
-      config.AUTH0_CLIENT_ID,
-      config.AUTH0_DOMAIN,
+      config.CLIENT_ID,
+      config.DOMAIN,
       {
         auth: {
           // redirectUrl: config.REDIRECT_URL,
           responseType: 'token',
         },
         theme: {
-          primaryColor: '#b81b1c',
+          primaryColor: '#31324F',
+          logo: config.LOGO_URL,
         },
         languageDictionary: {
           title: 'Coinucopio',
         },
+        allowShowPassword: true,
+        autoclose: true,
+        socialButtonStyle: 'small',
       }
     );
     // Binds login functions to keep this context
@@ -40,18 +45,47 @@ export default class AuthService {
   // ======================================================
   // Static methods
   // ======================================================
+  static clearOldNonces() {
+    Object.keys(localStorage).forEach( key => {
+      if(!key.startsWith('com.auth0.auth')) return;
+      localStorage.removeItem(key);
+    });
+  }
+
+  static login(authResult, profile) {
+    AuthService.setAccessToken(authResult.accessToken);
+    AuthService.setAuthResult(authResult);
+    AuthService.setProfile(profile);
+  }
+
   static loggedIn() {
     // Checks if there is a saved token and it's still valid
-    const token = AuthService.getToken();
-    return !!token && !AuthService.isTokenExpired(token);
+    return !AuthService.isTokenExpired();
   }
 
   static logout() {
-    // Clear user token and profile data from window.localStorage
-    window.localStorage.removeItem('auth0_token');
+    // Clear user token, auth result, and profile data from window.localStorage
+    window.localStorage.removeItem('access_token');
+    window.localStorage.removeItem('auth_result');
     window.localStorage.removeItem('profile');
   }
 
+
+  // accessToken
+  static getAccessToken() {
+    // Retrieves the user token from window.localStorage
+    const access_token = window.localStorage.getItem('access_token');
+    return access_token ? access_token : '';
+  }
+
+  static setAccessToken(accessToken) {
+    // Saves profile data to window.localStorage
+    window.localStorage.setItem('access_token', accessToken);
+    // Triggers profile_updated event to update the UI
+  }
+
+
+  // profile
   static getProfile() {
     // Retrieves the profile data from window.localStorage
     const profile = window.localStorage.getItem('profile');
@@ -64,22 +98,27 @@ export default class AuthService {
     // Triggers profile_updated event to update the UI
   }
 
-  static setToken(jsonToken) {
-    // Saves user token to window.localStorage
+
+  // authResult
+  static getAuthResult() {
+    // Retrieves the auth result from window.localStorage
+    const auth_result = window.localStorage.getItem('auth_result');
+    return auth_result ? JSON.parse(window.localStorage.auth_result) : {};
+  }
+
+  static setAuthResult(authResult) {
+    // Saves auth result to window.localStorage
     window.localStorage.setItem(
-      'auth0_token',
-      JSON.stringify(Object.assign(jsonToken, {expiresAt: jsonToken.expiresIn * 1000 + Date.now()}))
+      'auth_result',
+      JSON.stringify(Object.assign(authResult, {expiresAt: authResult.expiresIn * 1000 + Date.now()}))
     );
   }
 
-  static getToken() {
-    // Retrieves the user token from window.localStorage
-    const auth0_token = window.localStorage.getItem('auth0_token');
-    return auth0_token ? JSON.parse(window.localStorage.auth0_token) : {};
-  }
+
+
 
   static isTokenExpired() {
-    const token = AuthService.getToken();
+    const token = AuthService.getAuthResult();
     if (!token) return true;
 
     const date = new Date(0);

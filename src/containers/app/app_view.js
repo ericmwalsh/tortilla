@@ -26,15 +26,8 @@ class App extends Component {
     this.authService.lock.on('authenticated', (authResult) => {
       this.authService.lock.getUserInfo(authResult.accessToken, (error, profile) => {
         if (error) { return this.props.loginError(error); }
-        AuthService.setToken(authResult); // static method
-        AuthService.setProfile(profile); // static method
+        AuthService.login(authResult, profile); // static method
         this.props.loginSuccess(profile);
-        setTimeout(
-          () => {
-            this.authService.lock.hide();
-          },
-          100
-        );
         return this.props.history.push({ pathname: '/' });
       });
     });
