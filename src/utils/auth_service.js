@@ -5,6 +5,7 @@ export default class AuthService {
     const config = {
       CLIENT_ID: process.env.REACT_APP_AUTH0_CLIENT_ID,
       DOMAIN: process.env.REACT_APP_AUTH0_DOMAIN,
+      AUDIENCE: process.env.REACT_APP_AUTH0_AUDIENCE,
       REDIRECT_URL: 'http://localhost:4000/callback',
       LOGO_URL: process.env.REACT_APP_AUTH0_LOGO_URL
     }
@@ -17,6 +18,7 @@ export default class AuthService {
         auth: {
           // redirectUrl: config.REDIRECT_URL,
           responseType: 'token',
+          audience: config.AUDIENCE
         },
         theme: {
           primaryColor: '#31324F',
@@ -60,6 +62,7 @@ export default class AuthService {
 
   static loggedIn() {
     // Checks if there is a saved token and it's still valid
+    AuthService.clearOldNonces();
     return !AuthService.isTokenExpired();
   }
 

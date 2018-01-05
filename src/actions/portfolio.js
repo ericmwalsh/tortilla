@@ -1,3 +1,5 @@
+import AuthService from '../utils/auth_service'
+
 export const CCP_REFRESH='portfolio/CCP_REFRESH'
 export const CMC_REFRESH='portfolio/CMC_REFRESH'
 export const ADD_HOLDING='portfolio/ADD_HOLDING'
@@ -7,18 +9,37 @@ export const EDIT_LIST='portfolio/EDIT_LIST'
 
 export const ccpRefresh = () => {
   return dispatch => {
-    return fetch(`${process.env.REACT_APP_CRYPTO_PORTFOLIO_URL}aggregate_month`)
-    .then(response => response.json())
-    .then(
-      json => {
-        dispatch({
-          type: CCP_REFRESH,
-          data: {
-            history: json.data
-          }
-        })
-      }
-    );
+    var headers = {
+      'Authorization': `Bearer ${AuthService.getAccessToken()}`
+    }
+    if (AuthService.loggedIn()) {
+      // return fetch(`${process.env.REACT_APP_CRYPTO_PORTFOLIO_URL}aggregate_month`, {headers})
+      return fetch(`${"http://localhost:3000/"}aggregate_month`, {headers})
+      .then(response => response.json())
+      .then(
+        json => {
+          dispatch({
+            type: CCP_REFRESH,
+            data: {
+              history: json.data
+            }
+          })
+        }
+      );
+    } else {
+      return fetch(`${process.env.REACT_APP_CRYPTO_PORTFOLIO_URL}aggregate_month`)
+      .then(response => response.json())
+      .then(
+        json => {
+          dispatch({
+            type: CCP_REFRESH,
+            data: {
+              history: json.data
+            }
+          })
+        }
+      );
+    }
   }
 }
 
