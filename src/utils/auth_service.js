@@ -124,8 +124,7 @@ export default class AuthService {
     const token = AuthService.getAuthResult();
     if (!token) return true;
 
-    const date = new Date(0);
-    date.setUTCSeconds(token.expiresAt);
+    const date = new Date(token.expiresAt);
 
     return !(date.valueOf() > (new Date().valueOf()));
   }
