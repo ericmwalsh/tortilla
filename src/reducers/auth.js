@@ -2,7 +2,7 @@ import * as types from '../actions/auth'
 import AuthService from '../utils/auth_service';
 
 export default function authReducer(state = {
-  isAuthenticated: AuthService.loggedIn(),
+  isAuthenticated: AuthService.tokenExists(),
   isFetching: false,
   profile: AuthService.getProfile(),
   error: null,

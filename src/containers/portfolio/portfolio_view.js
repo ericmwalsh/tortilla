@@ -29,7 +29,9 @@ class Portfolio extends Component {
     return (
       <Container className="portfolio">
         <Row>
-          <Col>Enter a portfolio, track its value.</Col>
+          <Col>
+            Enter a portfolio, track its value.
+          </Col>
         </Row>
         <Row>
           <Col xs="12" lg="5" className="order-lg-2">
