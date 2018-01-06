@@ -62,15 +62,18 @@ export default class AuthService {
 
   static loggedIn() {
     // Checks if there is a saved token and it's still valid
-    AuthService.clearOldNonces();
     return !AuthService.isTokenExpired();
   }
 
-  static logout() {
+  static clearStorage() {
     // Clear user token, auth result, and profile data from window.localStorage
     window.localStorage.removeItem('access_token');
     window.localStorage.removeItem('auth_result');
     window.localStorage.removeItem('profile');
+  }
+
+  static logout() {
+    AuthService.clearStorage();
   }
 
 
@@ -106,7 +109,7 @@ export default class AuthService {
   static getAuthResult() {
     // Retrieves the auth result from window.localStorage
     const auth_result = window.localStorage.getItem('auth_result');
-    return auth_result ? JSON.parse(window.localStorage.auth_result) : {};
+    return auth_result ? JSON.parse(window.localStorage.auth_result) : false;
   }
 
   static setAuthResult(authResult) {
@@ -118,7 +121,9 @@ export default class AuthService {
   }
 
 
-
+  static tokenExists() {
+    return !!window.localStorage.getItem('auth_result');
+  }
 
   static isTokenExpired() {
     const token = AuthService.getAuthResult();

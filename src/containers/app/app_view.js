@@ -17,8 +17,29 @@ class App extends Component {
 
   constructor(props) {
     super(props);
+    AuthService.clearOldNonces(); // house cleaning
 
     this.authService = new AuthService();
+
+    if (AuthService.tokenExists() && !AuthService.loggedIn()) {
+      this.authService.lock.checkSession(
+        {
+          scope: 'openid profile email'
+        },
+        (err, authResult) => {
+          if (err) {
+            AuthService.clearStorage();
+            props.loginError(err);
+          } else {
+            this.authService.lock.getUserInfo(authResult.accessToken, (error, profile) => {
+              if (error) { return props.loginError(error); }
+              AuthService.login(authResult, profile);
+              return props.loginSuccess(profile);
+            });
+          }
+        }
+      );
+    }
   }
 
   componentWillMount() {
