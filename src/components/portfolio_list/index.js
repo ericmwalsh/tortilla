@@ -38,7 +38,7 @@ class PortfolioList extends Component {
   render() {
     var portfolio_holdings = this.renderPortfolio();
 
-    if (this.props.total == 0) {
+    if (this.props.total === 0) {
       return (
         <div className="portfolio-list">
           <Row className='portfolio-total'>

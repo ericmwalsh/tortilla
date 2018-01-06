@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Input, Col, Form, Row } from 'reactstrap';
+import { Button, Input, Col, Row } from 'reactstrap';
 
 import './edit_button.css';
 
@@ -29,7 +29,7 @@ class EditButton extends Component {
   }
 
   addCurrencyToPortfolio = () => {
-    if (this.state.currency != '' && this.state.amount != '') {
+    if (this.state.currency !== '' && this.state.amount !== '') {
       this.props.addHolding(this.state.currency, this.state.amount)
       this.toggleAddable();
     }
@@ -64,12 +64,12 @@ class EditButton extends Component {
       </Row>
     }
     else if (this.props.listEditable) {
-      var portfolio_list_edit_button = <Row>
+      portfolio_list_edit_button = <Row>
         <Button outline color="info" onClick={this.props.editList} block>Done</Button>
       </Row>
     }
     else {
-      var portfolio_list_edit_button = <Row>
+      portfolio_list_edit_button = <Row>
         <Button outline className="col-6" color="success" onClick={this.toggleAddable}>Add</Button>
         <Button outline className="col-6" color="warning" onClick={this.props.editList}>Edit</Button>
       </Row>

@@ -93,12 +93,12 @@ export default (state = initialState, action) => {
 
     case ADD_HOLDING:
       // action.data.currency, action.data.amount
-      var holdings = state
+      holdings = state
                         .holdings
                         .filter(holding => holding[0] !== action.data.currency);
       holdings.push([action.data.currency, action.data.amount]);
 
-      var listAndTotal = determineListAndTotal(holdings, state.values);
+      listAndTotal = determineListAndTotal(holdings, state.values);
 
       localStorage.setItem('portfolio.holdings', JSON.stringify(holdings))
       setDocumentTitle(listAndTotal[1]);
@@ -111,11 +111,11 @@ export default (state = initialState, action) => {
 
     case REMOVE_HOLDING:
       // action.data.currency
-      var holdings = state
+      holdings = state
                         .holdings
                         .filter(holding => holding[0] !== action.data.currency);
 
-      var listAndTotal = determineListAndTotal(holdings, state.values);
+      listAndTotal = determineListAndTotal(holdings, state.values);
 
       localStorage.setItem('portfolio.holdings', JSON.stringify(holdings))
       setDocumentTitle(listAndTotal[1]);
@@ -128,11 +128,11 @@ export default (state = initialState, action) => {
 
     case MODIFY_HOLDING:
       // action.data.currency, action.data.amount
-      var holdings = state
+      holdings = state
                         .holdings
                         .map(holding => holding[0] === action.data.currency ? [action.data.currency, action.data.amount] : holding);
 
-      var listAndTotal = determineListAndTotal(holdings, state.values);
+      listAndTotal = determineListAndTotal(holdings, state.values);
 
       localStorage.setItem('portfolio.holdings', JSON.stringify(holdings))
       setDocumentTitle(listAndTotal[1]);

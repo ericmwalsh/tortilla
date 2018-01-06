@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Chart from 'chart.js'
 
-import Colors from '../../constants/colors'
+// import Colors from '../../constants/colors'
 import './history_chart.css';
 
 class HistoryChart extends Component {

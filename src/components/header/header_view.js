@@ -7,8 +7,7 @@ import {
   NavbarToggler,
   NavbarBrand,
   Nav,
-  NavItem,
-  NavLink } from 'reactstrap';
+  NavItem } from 'reactstrap';
 
 import AuthService from '../../utils/auth_service'
 
@@ -41,18 +40,14 @@ class Header extends Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <Link to="/">
-                  <NavLink>
-                    Home
-                  </NavLink>
+                <Link className="nav-link" to="/">
+                  Home
                 </Link>
               </NavItem>
 
               <NavItem>
-                <Link to="/about">
-                  <NavLink>
-                    About
-                  </NavLink>
+                <Link className="nav-link" to="/about">
+                  About
                 </Link>
               </NavItem>
 

@@ -64,7 +64,7 @@ class Item extends Component {
         </Row>
     }
     else {
-      var portfolio_list_item =
+      portfolio_list_item =
         <Row>
           <Col xs="5">
             {this.props.name}
