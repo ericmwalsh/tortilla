@@ -7,7 +7,12 @@ import {
   NavbarToggler,
   NavbarBrand,
   Nav,
-  NavItem } from 'reactstrap';
+  NavItem,
+  Dropdown,
+  DropdownMenu,
+  DropdownToggle,
+  DropdownItem,
+  Tooltip } from 'reactstrap';
 
 import AuthService from '../../utils/auth_service'
 
@@ -19,15 +24,30 @@ class Header extends Component {
     super(props);
 
     this.state = {
-      isOpen: false
+      navIsOpen: false,
+      tooltipIsOpen: false,
+      userDropdownOpen: false
     }
-
-    this.toggle = this.toggle.bind(this);
+    this.toggleNav = this.toggleNav.bind(this);
+    this.toggleTooltip = this.toggleTooltip.bind(this);
+    this.toggleUserDropdown = this.toggleUserDropdown.bind(this);
   }
 
-  toggle() {
+  toggleNav() {
     this.setState({
-      isOpen: !this.state.isOpen
+      navIsOpen: !this.state.navIsOpen
+    });
+  }
+
+  toggleTooltip() {
+    this.setState({
+      tooltipIsOpen: !this.state.tooltipIsOpen
+    });
+  }
+
+  toggleUserDropdown() {
+    this.setState({
+      userDropdownOpen: !this.state.userDropdownOpen
     });
   }
 
@@ -36,8 +56,8 @@ class Header extends Component {
       <div className="Header">
         <Navbar color="faded" light expand="md">
           <NavbarBrand href="/">coinucop.io</NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
+          <NavbarToggler onClick={this.toggleNav} />
+          <Collapse isOpen={this.state.navIsOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
                 <Link className="nav-link" to="/">
@@ -52,31 +72,62 @@ class Header extends Component {
               </NavItem>
 
               {this.props.auth.isAuthenticated ?
-                <div>
-                  <img src={this.props.auth.profile.picture} height="40px" alt="profile" />
-                  <span>Welcome, {this.props.auth.profile.nickname}</span>
-                  <button
+                <NavItem>
+                  <Dropdown isOpen={this.state.userDropdownOpen} toggle={this.toggleUserDropdown}>
+                    <DropdownToggle caret>
+                      {this.props.auth.profile.picture &&
+                        <img src={this.props.auth.profile.picture} height="30px" alt="profile" />
+                      }
+                      <span> {this.props.auth.profile.nickname}</span>
+                    </DropdownToggle>
+                    <DropdownMenu>
+                      <DropdownItem>
+                        <Link className="nav-link" to="/account">
+                          Account
+                        </Link>
+                      </DropdownItem>
+                      <DropdownItem>
+                        <a className="nav-link"
+                          onClick={() => {
+                            AuthService.logout(); // careful, this is a static method
+                            this.props.logoutSuccess();
+                            this.props.history.push({ pathname: '/' });
+                          }}
+                        >
+                          Logout
+                        </a>
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </NavItem>
+                :
+                <NavItem>
+                  <button className="nav-link"
                     onClick={() => {
-                      this.props.logoutSuccess();
-                      AuthService.logout(); // careful, this is a static method
-                      this.props.history.push({ pathname: '/' });
+                      this.props.authService.login();
+                      this.props.loginRequest();
                     }}
                   >
-                    Logout
+                    Login
                   </button>
-                </div>
-                :
-                <button
-                  onClick={() => {
-                    this.props.authService.login();
-                    this.props.loginRequest();
-                  }}
-                >
-                  Login
-                </button>
+                </NavItem>
               }
+
+
               {this.props.auth.error &&
-                <p>{this.props.auth.error.error} : {this.props.auth.error.errorDescription}</p>
+                <div>
+                  <NavItem id="error-tooltip">
+                    <div className="nav-link">!!!</div>
+                  </NavItem>
+                  <Tooltip
+                    placement="auto"
+                    isOpen={this.state.tooltipIsOpen}
+                    target="error-tooltip"
+                    toggle={this.toggleTooltip}
+                  >
+                    <p>{this.props.auth.error.error} : {this.props.auth.error.errorDescription}</p>
+                  </Tooltip>
+                </div>
               }
             </Nav>
           </Collapse>
@@ -85,6 +136,7 @@ class Header extends Component {
     );
   }
 }
+
 
 Header.propTypes = {
   authService: PropTypes.object.isRequired, // eslint-disable-line

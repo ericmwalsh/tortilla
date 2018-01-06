@@ -6,7 +6,7 @@ export default class AuthService {
       CLIENT_ID: process.env.REACT_APP_AUTH0_CLIENT_ID,
       DOMAIN: process.env.REACT_APP_AUTH0_DOMAIN,
       AUDIENCE: process.env.REACT_APP_AUTH0_AUDIENCE,
-      REDIRECT_URL: 'http://localhost:4000/callback',
+      REDIRECT_URL: 'http://localhost:4000',
       LOGO_URL: process.env.REACT_APP_AUTH0_LOGO_URL
     }
 
@@ -16,7 +16,7 @@ export default class AuthService {
       config.DOMAIN,
       {
         auth: {
-          // redirectUrl: config.REDIRECT_URL,
+          redirectUrl: config.REDIRECT_URL,
           responseType: 'token',
           audience: config.AUDIENCE
         },
