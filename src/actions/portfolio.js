@@ -2,6 +2,7 @@ import AuthService from '../utils/auth_service'
 
 export const CCP_REFRESH='portfolio/CCP_REFRESH'
 export const CMC_REFRESH='portfolio/CMC_REFRESH'
+
 export const ADD_HOLDING='portfolio/ADD_HOLDING'
 export const REMOVE_HOLDING='portfolio/REMOVE_HOLDING'
 export const MODIFY_HOLDING='portfolio/MODIFY_HOLDING'
@@ -16,7 +17,7 @@ export const ccpRefresh = () => {
     }
     if (AuthService.loggedIn()) {
       // fetch(`${"http://localhost:3000/"}portfolio`, {headers, method: "POST", body: JSON.stringify({holdings: localStorage.getItem('portfolio.holdings')})})
-      fetch(`${"http://localhost:3000/"}portfolio`, {headers, method: "GET"})
+      // fetch(`${"http://localhost:3000/"}portfolio`, {headers, method: "GET"})
 
       // return fetch(`${process.env.REACT_APP_CRYPTO_PORTFOLIO_URL}aggregate_month`, {headers})
       return fetch(`${"http://localhost:3000/"}aggregate_month`, {headers})

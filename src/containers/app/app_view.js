@@ -18,7 +18,7 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    AuthService.clearOldNonces(); // house cleaning
+    // AuthService.clearOldNonces(); // house cleaning
 
     this.authService = new AuthService();
 
@@ -35,7 +35,39 @@ class App extends Component {
             this.authService.lock.getUserInfo(authResult.accessToken, (error, profile) => {
               if (error) { return props.loginError(error); }
               AuthService.login(authResult, profile);
-              return props.loginSuccess(profile);
+              // return props.loginSuccess(profile);
+
+              var headers = {
+                'Authorization': `Bearer ${authResult.accessToken}`,
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+              }
+
+              fetch(`${"http://localhost:3000/"}portfolio`, {headers})
+              .then(response => response.json())
+              .then(
+                json => {
+                  // new account
+                  if (json.data === "") {
+                    var holdings = localStorage.getItem('portfolio.holdings');
+                    if (holdings) {
+                      fetch(
+                        `${"http://localhost:3000/"}portfolio`,
+                        {
+                          headers,
+                          method: "POST",
+                          body: JSON.stringify({holdings: holdings})
+                        }
+                      )
+                    }
+                  }
+                  // load stored holdings
+                  else {
+                    localStorage.setItem('portfolio.holdings', json.data)
+                  }
+                  return this.props.loginSuccess(profile);
+                }
+              );
             });
           }
         }
@@ -49,8 +81,39 @@ class App extends Component {
       this.authService.lock.getUserInfo(authResult.accessToken, (error, profile) => {
         if (error) { return this.props.loginError(error); }
         AuthService.login(authResult, profile); // static method
-        this.props.loginSuccess(profile);
-        return this.props.history.push({ pathname: '/' });
+
+        var headers = {
+          'Authorization': `Bearer ${authResult.accessToken}`,
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        }
+
+        fetch(`${"http://localhost:3000/"}portfolio`, {headers})
+        .then(response => response.json())
+        .then(
+          json => {
+            // new account
+            if (json.data === "") {
+              var holdings = localStorage.getItem('portfolio.holdings');
+              if (holdings) {
+                fetch(
+                  `${"http://localhost:3000/"}portfolio`,
+                  {
+                    headers,
+                    method: "POST",
+                    body: JSON.stringify({holdings: holdings})
+                  }
+                )
+              }
+            }
+            // load stored holdings
+            else {
+              localStorage.setItem('portfolio.holdings', json.data)
+            }
+            return this.props.loginSuccess(profile);
+          }
+        );
+        // return this.props.history.push({ pathname: '/' });
       });
     });
     // Add callback for lock's `authorization_error` event

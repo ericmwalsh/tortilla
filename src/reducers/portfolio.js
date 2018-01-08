@@ -8,6 +8,11 @@ import {
   EDIT_LIST
 } from '../actions/portfolio'
 
+import {
+  LOGIN_SUCCESS
+} from '../actions/auth'
+
+import AuthService from '../utils/auth_service'
 
 function obtainHoldings() {
   var holdings = JSON.parse(localStorage.getItem('portfolio.holdings'));
@@ -69,6 +74,25 @@ function setDocumentTitle(title) {
   document.title = `$${title.toFixed(2)}`;
 }
 
+function updateAccountPortfolio(holdings) {
+  if (AuthService.loggedIn()) {
+    var headers = {
+      'Authorization': `Bearer ${AuthService.getAccessToken()}`,
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json'
+    }
+
+    fetch(
+      `${"http://localhost:3000/"}portfolio`,
+      {
+        headers,
+        method: "POST",
+        body: JSON.stringify({holdings: holdings})
+      }
+    )
+  }
+}
+
 export default (state = initialState, action) => {
   switch (action.type) {
     case CCP_REFRESH:
@@ -91,6 +115,18 @@ export default (state = initialState, action) => {
         values: values
       }
 
+    // shared portfolio action
+    case LOGIN_SUCCESS:
+      holdings = JSON.parse(localStorage.getItem('portfolio.holdings'))
+      listAndTotal = determineListAndTotal(holdings, state.values);
+
+      return {
+        ...state,
+        holdings: holdings,
+        list: listAndTotal[0],
+        total: listAndTotal[1]
+      }
+
     case ADD_HOLDING:
       // action.data.currency, action.data.amount
       holdings = state
@@ -100,7 +136,9 @@ export default (state = initialState, action) => {
 
       listAndTotal = determineListAndTotal(holdings, state.values);
 
-      localStorage.setItem('portfolio.holdings', JSON.stringify(holdings))
+      var new_holdings = JSON.stringify(holdings);
+      localStorage.setItem('portfolio.holdings', new_holdings)
+      updateAccountPortfolio(new_holdings)
       setDocumentTitle(listAndTotal[1]);
       return {
         ...state,
@@ -117,7 +155,9 @@ export default (state = initialState, action) => {
 
       listAndTotal = determineListAndTotal(holdings, state.values);
 
-      localStorage.setItem('portfolio.holdings', JSON.stringify(holdings))
+      new_holdings = JSON.stringify(holdings);
+      localStorage.setItem('portfolio.holdings', new_holdings)
+      updateAccountPortfolio(new_holdings)
       setDocumentTitle(listAndTotal[1]);
       return {
         ...state,
@@ -134,7 +174,9 @@ export default (state = initialState, action) => {
 
       listAndTotal = determineListAndTotal(holdings, state.values);
 
-      localStorage.setItem('portfolio.holdings', JSON.stringify(holdings))
+      new_holdings = JSON.stringify(holdings);
+      localStorage.setItem('portfolio.holdings', new_holdings)
+      updateAccountPortfolio(new_holdings)
       setDocumentTitle(listAndTotal[1]);
       return {
         ...state,
