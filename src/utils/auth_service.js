@@ -18,7 +18,8 @@ export default class AuthService {
         auth: {
           redirectUrl: config.REDIRECT_URL,
           responseType: 'token',
-          audience: config.AUDIENCE
+          audience: config.AUDIENCE,
+          scope: 'openid profile email'
         },
         theme: {
           primaryColor: '#31324F',

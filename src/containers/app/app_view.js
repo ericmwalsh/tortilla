@@ -25,6 +25,7 @@ class App extends Component {
     if (AuthService.tokenExists() && !AuthService.loggedIn()) {
       this.authService.lock.checkSession(
         {
+          audience: process.env.REACT_APP_AUTH0_AUDIENCE,
           scope: 'openid profile email'
         },
         (err, authResult) => {
