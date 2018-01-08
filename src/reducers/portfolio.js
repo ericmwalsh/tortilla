@@ -119,9 +119,9 @@ export default (state = initialState, action) => {
     // shared portfolio action
     case LOGIN_SUCCESS:
     case REFRESH:
-      holdings = JSON.parse(localStorage.getItem('portfolio.holdings'))
+      holdings = obtainHoldings()
       listAndTotal = determineListAndTotal(holdings, state.values);
-
+      setDocumentTitle(listAndTotal[1]);
       return {
         ...state,
         holdings: holdings,
