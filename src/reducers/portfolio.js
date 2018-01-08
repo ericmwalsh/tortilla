@@ -2,6 +2,7 @@ import ExamplePortfolio from '../constants/example_portfolio'
 import {
   CCP_REFRESH,
   CMC_REFRESH,
+  REFRESH,
   ADD_HOLDING,
   REMOVE_HOLDING,
   MODIFY_HOLDING,
@@ -83,7 +84,7 @@ function updateAccountPortfolio(holdings) {
     }
 
     fetch(
-      `${"http://localhost:3000/"}portfolio`,
+      `${process.env.REACT_APP_CRYPTO_PORTFOLIO_URL}portfolio`,
       {
         headers,
         method: "POST",
@@ -117,6 +118,7 @@ export default (state = initialState, action) => {
 
     // shared portfolio action
     case LOGIN_SUCCESS:
+    case REFRESH:
       holdings = JSON.parse(localStorage.getItem('portfolio.holdings'))
       listAndTotal = determineListAndTotal(holdings, state.values);
 

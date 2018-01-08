@@ -7,11 +7,48 @@ import PieChart from '../../components/pie_chart'
 import SortableTable from '../../components/sortable_table'
 import './portfolio.css';
 
+import AuthService from '../../utils/auth_service'
+
 class Portfolio extends Component {
 
   componentWillMount() {
     this.props.ccpRefresh()
     this.props.cmcRefresh()
+    if (this.props.auth.isAuthenticated) {
+      var headers = {
+        'Authorization': `Bearer ${AuthService.getAccessToken()}`,
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      }
+
+      fetch(`${process.env.REACT_APP_CRYPTO_PORTFOLIO_URL}portfolio`, {headers})
+      .then(response => response.json())
+      .then(
+        json => {
+          var holdings = localStorage.getItem('portfolio.holdings');
+          // new account
+          if (json.data === "") {
+            if (holdings) {
+              fetch(
+                `${process.env.REACT_APP_CRYPTO_PORTFOLIO_URL}portfolio`,
+                {
+                  headers,
+                  method: "POST",
+                  body: JSON.stringify({holdings: holdings})
+                }
+              )
+            }
+          }
+          // load stored holdings
+          else {
+            if (json.data !== holdings) {
+              localStorage.setItem('portfolio.holdings', json.data)
+              return this.props.refresh();
+            }
+          }
+        }
+      );
+    }
   }
 
   componentDidMount() {

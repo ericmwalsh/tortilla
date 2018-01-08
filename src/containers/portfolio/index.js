@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import {
   ccpRefresh,
   cmcRefresh,
+  refresh,
   addHolding,
   removeHolding,
   modifyHolding,
@@ -24,6 +25,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => bindActionCreators({
   ccpRefresh,
   cmcRefresh,
+  refresh,
   addHolding,
   removeHolding,
   modifyHolding,

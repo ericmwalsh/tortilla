@@ -43,7 +43,7 @@ class App extends Component {
                 'Content-Type': 'application/json'
               }
 
-              fetch(`${"http://localhost:3000/"}portfolio`, {headers})
+              fetch(`${process.env.REACT_APP_CRYPTO_PORTFOLIO_URL}portfolio`, {headers})
               .then(response => response.json())
               .then(
                 json => {
@@ -52,7 +52,7 @@ class App extends Component {
                     var holdings = localStorage.getItem('portfolio.holdings');
                     if (holdings) {
                       fetch(
-                        `${"http://localhost:3000/"}portfolio`,
+                        `${process.env.REACT_APP_CRYPTO_PORTFOLIO_URL}portfolio`,
                         {
                           headers,
                           method: "POST",
@@ -88,7 +88,7 @@ class App extends Component {
           'Content-Type': 'application/json'
         }
 
-        fetch(`${"http://localhost:3000/"}portfolio`, {headers})
+        fetch(`${process.env.REACT_APP_CRYPTO_PORTFOLIO_URL}portfolio`, {headers})
         .then(response => response.json())
         .then(
           json => {
@@ -97,7 +97,7 @@ class App extends Component {
               var holdings = localStorage.getItem('portfolio.holdings');
               if (holdings) {
                 fetch(
-                  `${"http://localhost:3000/"}portfolio`,
+                  `${process.env.REACT_APP_CRYPTO_PORTFOLIO_URL}portfolio`,
                   {
                     headers,
                     method: "POST",
