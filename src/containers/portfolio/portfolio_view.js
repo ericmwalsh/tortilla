@@ -14,7 +14,7 @@ class Portfolio extends Component {
   componentWillMount() {
     this.props.ccpRefresh()
     this.props.cmcRefresh()
-    if (this.props.auth.isAuthenticated) {
+    if (AuthService.loggedIn()) {
       var headers = {
         'Authorization': `Bearer ${AuthService.getAccessToken()}`,
         'Accept': 'application/json, text/plain, */*',
