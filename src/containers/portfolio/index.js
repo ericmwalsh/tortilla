@@ -17,7 +17,8 @@ const mapStateToProps = state => ({
   holdings: state.portfolio.holdings,
   list: state.portfolio.list,
   listEditable: state.portfolio.listEditable,
-  total: state.portfolio.total
+  total: state.portfolio.total,
+  auth: state.auth
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({

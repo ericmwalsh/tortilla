@@ -10,9 +10,14 @@ export const EDIT_LIST='portfolio/EDIT_LIST'
 export const ccpRefresh = () => {
   return dispatch => {
     var headers = {
-      'Authorization': `Bearer ${AuthService.getAccessToken()}`
+      'Authorization': `Bearer ${AuthService.getAccessToken()}`,
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json'
     }
     if (AuthService.loggedIn()) {
+      // fetch(`${"http://localhost:3000/"}portfolio`, {headers, method: "POST", body: JSON.stringify({holdings: localStorage.getItem('portfolio.holdings')})})
+      fetch(`${"http://localhost:3000/"}portfolio`, {headers, method: "GET"})
+
       // return fetch(`${process.env.REACT_APP_CRYPTO_PORTFOLIO_URL}aggregate_month`, {headers})
       return fetch(`${"http://localhost:3000/"}aggregate_month`, {headers})
       .then(response => response.json())

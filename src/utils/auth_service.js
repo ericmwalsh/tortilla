@@ -6,8 +6,8 @@ export default class AuthService {
       CLIENT_ID: process.env.REACT_APP_AUTH0_CLIENT_ID,
       DOMAIN: process.env.REACT_APP_AUTH0_DOMAIN,
       AUDIENCE: process.env.REACT_APP_AUTH0_AUDIENCE,
-      REDIRECT_URL: 'http://localhost:4000',
-      LOGO_URL: process.env.REACT_APP_AUTH0_LOGO_URL
+      LOGO_URL: process.env.REACT_APP_AUTH0_LOGO_URL,
+      REDIRECT_URL: process.env.REACT_APP_AUTH0_REDIRECT_URL,
     }
 
     // Configure Auth0 lock

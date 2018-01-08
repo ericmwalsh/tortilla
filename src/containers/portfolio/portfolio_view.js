@@ -30,7 +30,10 @@ class Portfolio extends Component {
       <Container className="portfolio">
         <Row>
           <Col>
-            Enter a portfolio, track its value.
+            <p>Enter a portfolio, track its value.</p>
+            {this.props.auth.isAuthenticated &&
+              <p>*Changes to your portfolio (while logged in) will be saved to your account.</p>
+            }
           </Col>
         </Row>
         <Row>
