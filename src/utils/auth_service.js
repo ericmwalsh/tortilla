@@ -26,7 +26,7 @@ export default class AuthService {
           logo: config.LOGO_URL,
         },
         languageDictionary: {
-          title: 'Coinucopio',
+          title: 'CHALUPA.IO',
         },
         allowShowPassword: true,
         autoclose: true,

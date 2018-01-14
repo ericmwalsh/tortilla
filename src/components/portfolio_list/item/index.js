@@ -51,13 +51,26 @@ class Item extends Component {
     this.props.removeHolding(this.props.symbol);
   }
 
+  handleKeyPress = (e) => {
+    if(e.key === 'Enter') {
+      this.updateCurrency();
+    }
+  }
+
   render() {
     if (this.props.editable) {
       var portfolio_list_item =
         <Row>
           <InputGroup className="col-10 currency-input">
             <InputGroupAddon>{this.props.symbol}</InputGroupAddon>
-            <Input placeholder={this.props.amount} value={this.state.amount} onChange={this.setAmount} type="number" step=".000001" />
+            <Input
+              placeholder={this.props.amount}
+              value={this.state.amount}
+              onChange={this.setAmount}
+              type="number"
+              step=".000001"
+              onKeyPress={this.handleKeyPress}
+            />
           </InputGroup>
           <Button className="col-1" outline color="success" onClick={this.updateCurrency}>✓</Button>
           <Button className="col-1" outline color="danger" onClick={this.removeCurrency}>X</Button>

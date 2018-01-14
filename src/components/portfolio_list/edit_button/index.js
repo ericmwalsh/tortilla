@@ -47,6 +47,12 @@ class EditButton extends Component {
     });
   }
 
+  handleKeyPress = (e) => {
+    if(e.key === 'Enter') {
+      this.addCurrencyToPortfolio();
+    }
+  }
+
   render() {
     if(this.state.addable) {
       var currency_symbols = this.props.currencySymbols.map(
@@ -58,7 +64,15 @@ class EditButton extends Component {
         <Input className="col-5" value={this.state.currency} onChange={this.setCurrency} type="select">
           {currency_symbols}
         </Input>
-        <Input className="col-5" value={this.state.amount} onChange={this.setAmount} placeholder="Amount" type="number" step=".000001" />
+        <Input
+          className="col-5"
+          value={this.state.amount}
+          onChange={this.setAmount}
+          placeholder="Amount"
+          type="number"
+          step=".000001"
+          onKeyPress={this.handleKeyPress}
+        />
         <Button className="col-1" outline color="success" onClick={this.addCurrencyToPortfolio}>✓</Button>
         <Button className="col-1" outline color="danger" onClick={this.toggleAddable}>X</Button>
       </Row>
