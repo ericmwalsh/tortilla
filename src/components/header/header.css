@@ -10,3 +10,7 @@
 .Header .header-logo {
   height: 50px;
 }
+
+.Header .nav-item:hover {
+  border-bottom-style: solid;
+}

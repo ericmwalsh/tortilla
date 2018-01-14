@@ -67,6 +67,9 @@ class Portfolio extends Component {
       <Container className="portfolio">
         <Row>
           <Col>
+            <p>NOTE: COINUCOP.IO is in the process of moving to CHALUPA.IO</p>
+            <p>This process <em>should</em> be completed by 1/16 - cheers!</p>
+            <br />
             <p>Enter a portfolio, track its value.</p>
             {this.props.auth.isAuthenticated &&
               <p>*Changes to your portfolio (while logged in) will be saved to your account.</p>

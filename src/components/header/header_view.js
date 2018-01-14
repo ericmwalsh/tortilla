@@ -78,13 +78,12 @@ class Header extends Component {
               {this.props.auth.isAuthenticated ?
                 <NavItem>
                   <Dropdown isOpen={this.state.userDropdownOpen} toggle={this.toggleUserDropdown}>
-                    <DropdownToggle caret>
+                    <DropdownToggle color="white">
                       {this.props.auth.profile.picture &&
                         <img src={this.props.auth.profile.picture} height="30px" alt="profile" />
                       }
-                      <span> {this.props.auth.profile.nickname}</span>
                     </DropdownToggle>
-                    <DropdownMenu>
+                    <DropdownMenu right>
                       <DropdownItem>
                         <NavLink tag={Link} to="/account">
                           Account

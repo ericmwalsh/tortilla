@@ -17,7 +17,7 @@ export default class AuthService {
       {
         auth: {
           redirectUrl: config.REDIRECT_URL,
-          responseType: 'token',
+          responseType: 'token id_token',
           audience: config.AUDIENCE,
           scope: 'openid profile email'
         },

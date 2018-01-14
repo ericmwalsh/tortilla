@@ -26,7 +26,8 @@ class App extends Component {
       this.authService.lock.checkSession(
         {
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
-          scope: 'openid profile email'
+          scope: 'openid profile email',
+          responseType: 'token id_token',
         },
         (err, authResult) => {
           if (err) {
