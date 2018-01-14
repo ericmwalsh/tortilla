@@ -26,7 +26,7 @@ export const ccpRefresh = () => {
 
 export const cmcRefresh = () => {
   return dispatch => {
-    return fetch('https://api.coinmarketcap.com/v1/ticker/?limit=0')
+    return fetch(`${process.env.REACT_APP_CRYPTO_PORTFOLIO_URL}cmc_cache`)
     .then(response => response.json())
     .then(
       json => {

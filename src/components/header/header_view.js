@@ -8,6 +8,7 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
+  NavLink,
   Dropdown,
   DropdownMenu,
   DropdownToggle,
@@ -16,6 +17,7 @@ import {
 
 import AuthService from '../../utils/auth_service'
 
+import logo from './logo.png'
 import './header.css';
 
 
@@ -55,20 +57,22 @@ class Header extends Component {
     return (
       <div className="Header">
         <Navbar color="faded" light expand="md">
-          <NavbarBrand href="/">coinucop.io</NavbarBrand>
+          <NavbarBrand tag={Link} to="/">
+            <img src={logo} alt="Chalupa.io logo" className="header-logo" />
+          </NavbarBrand>
           <NavbarToggler onClick={this.toggleNav} />
           <Collapse isOpen={this.state.navIsOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <Link className="nav-link" to="/">
+                <NavLink tag={Link} to="/">
                   Home
-                </Link>
+                </NavLink>
               </NavItem>
 
               <NavItem>
-                <Link className="nav-link" to="/about">
+                <NavLink tag={Link} to="/about">
                   About
-                </Link>
+                </NavLink>
               </NavItem>
 
               {this.props.auth.isAuthenticated ?
@@ -82,12 +86,12 @@ class Header extends Component {
                     </DropdownToggle>
                     <DropdownMenu>
                       <DropdownItem>
-                        <Link className="nav-link" to="/account">
+                        <NavLink tag={Link} to="/account">
                           Account
-                        </Link>
+                        </NavLink>
                       </DropdownItem>
                       <DropdownItem>
-                        <a className="nav-link"
+                        <NavLink
                           onClick={() => {
                             AuthService.logout(); // careful, this is a static method
                             this.props.logoutSuccess();
@@ -95,21 +99,21 @@ class Header extends Component {
                           }}
                         >
                           Logout
-                        </a>
+                        </NavLink>
                       </DropdownItem>
                     </DropdownMenu>
                   </Dropdown>
                 </NavItem>
                 :
                 <NavItem>
-                  <button className="nav-link"
+                  <NavLink tag={'button'}
                     onClick={() => {
                       this.props.authService.login();
                       this.props.loginRequest();
                     }}
                   >
                     Login
-                  </button>
+                  </NavLink>
                 </NavItem>
               }
 

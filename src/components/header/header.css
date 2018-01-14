@@ -1,7 +1,12 @@
 .Header {
-  background-color: lightgray;
+  background-color: white;
+  border-bottom-style: solid;
 }
 
 .Header li.nav-item {
   padding-left: 5px;
+}
+
+.Header .header-logo {
+  height: 50px;
 }
