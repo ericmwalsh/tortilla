@@ -16,3 +16,9 @@
     border-bottom-style: solid;
   }
 }
+
+.Header .log-in-link,
+.Header .log-out-link,
+.Header .sign-up-link {
+  cursor: pointer;
+}

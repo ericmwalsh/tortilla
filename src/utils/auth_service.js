@@ -33,16 +33,25 @@ export default class AuthService {
         socialButtonStyle: 'small',
       }
     );
-    // Binds login functions to keep this context
-    this.login = this.login.bind(this);
+    // Binds logIn/signUp functions to keep this context
+    this.logIn = this.logIn.bind(this);
+    this.signUp = this.signUp.bind(this);
   }
 
   // ======================================================
   // Public methods
   // ======================================================
-  login() {
+  logIn() {
     // Call the show method to display the widget.
     this.lock.show();
+  }
+
+  signUp() {
+    this.lock.show(
+      {
+        initialScreen: 'signUp'
+      }
+    );
   }
 
   // ======================================================

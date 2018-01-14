@@ -91,29 +91,44 @@ class Header extends Component {
                       </DropdownItem>
                       <DropdownItem>
                         <NavLink
+                          className="log-out-link"
                           onClick={() => {
                             AuthService.logout(); // careful, this is a static method
                             this.props.logoutSuccess();
                             this.props.history.push({ pathname: '/' });
                           }}
                         >
-                          Logout
+                          Log Out
                         </NavLink>
                       </DropdownItem>
                     </DropdownMenu>
                   </Dropdown>
                 </NavItem>
                 :
-                <NavItem>
-                  <NavLink tag={'button'}
-                    onClick={() => {
-                      this.props.authService.login();
-                      this.props.loginRequest();
-                    }}
-                  >
-                    Login
-                  </NavLink>
-                </NavItem>
+                [
+                  <NavItem key="sign-up">
+                    <NavLink
+                      className="sign-up-link"
+                      onClick={() => {
+                        this.props.authService.signUp();
+                        this.props.loginRequest();
+                      }}
+                    >
+                      Sign Up
+                    </NavLink>
+                  </NavItem>,
+                  <NavItem key="log-in">
+                    <NavLink
+                      className="log-in-link"
+                      onClick={() => {
+                        this.props.authService.logIn();
+                        this.props.loginRequest();
+                      }}
+                    >
+                      Log In
+                    </NavLink>
+                  </NavItem>
+                ]
               }
 
 
