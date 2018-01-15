@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import {
+  Container,
+  Row,
+  Col,
+  Jumbotron,
+  Button } from 'reactstrap';
+import { Link } from 'react-router-dom'
 
 import PortfolioList from '../../components/portfolio_list'
 import HistoryChart from '../../components/history_chart'
@@ -62,18 +68,42 @@ class Portfolio extends Component {
     )
   }
 
-  render() {
+  introContainer() {
     return (
-      <Container className="portfolio">
+      <Container className="intro-container">
         <Row>
           <Col>
-            <p>NOTE: COINUCOP.IO is in the process of moving to CHALUPA.IO</p>
-            <p>This process <em>should</em> be completed by 1/16 - cheers!</p>
-            <br />
-            <p>Enter a portfolio, track its value.</p>
-            {this.props.auth.isAuthenticated &&
-              <p>*Changes to your portfolio (while logged in) will be saved to your account.</p>
-            }
+            <Jumbotron>
+              <h3 className="display-5">Cryptocurrency Portfolio Management</h3>
+              <p className="lead">
+                <b>chalupa.io</b> is a free tool to help you track your portfolio, share your gains, and reap the rewards.
+              </p>
+              <hr className="my-2" />
+              <p>We are currently in beta but are adding new features on a regular basis.</p>
+              <p>The current <em>optimistic</em> goal is to add US tax calculations before the end of the 2017 tax season.</p>
+              <p className="lead">
+                <Button tag={Link} to="/features" color="primary">Learn More</Button>
+              </p>
+            </Jumbotron>
+          </Col>
+        </Row>
+      </Container>
+    );
+  }
+
+  portfolioContainer() {
+    return (
+      <Container className="portfolio-container no-gutters">
+        <Row>
+          <Col>
+            <div className="intro-text">
+              <p>Enter a portfolio, track its value.</p>
+              {this.props.auth.isAuthenticated ?
+                <p>*Changes to your portfolio (while logged in) will be saved to your account.</p>
+                :
+                <p>*Sign up to save your portfolio and get access to more advanced tools and analytics!</p>
+              }
+            </div>
           </Col>
         </Row>
         <Row>
@@ -112,6 +142,15 @@ class Portfolio extends Component {
           </div>
         </Row>
       </Container>
+    );
+  }
+
+  render() {
+    return (
+      <div className="portfolio">
+        {!this.props.auth.isAuthenticated && this.introContainer()}
+        {this.portfolioContainer()}
+      </div>
     );
   }
 }

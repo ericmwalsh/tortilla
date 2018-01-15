@@ -16,3 +16,16 @@
   width: 100%;
   min-height: 400px;
 }
+
+.portfolio .portfolio-container {
+  max-width: 100%;
+}
+
+.portfolio .intro-text {
+  text-align: center;
+}
+
+.portfolio .jumbotron {
+  border-style: solid;
+  border-width: 2px;
+}

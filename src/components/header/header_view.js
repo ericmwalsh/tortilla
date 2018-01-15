@@ -69,6 +69,14 @@ class Header extends Component {
                 </NavLink>
               </NavItem>
 
+              {!this.props.auth.isAuthenticated &&
+                <NavItem>
+                  <NavLink tag={Link} to="/features">
+                    Features
+                  </NavLink>
+                </NavItem>
+              }
+
               <NavItem>
                 <NavLink tag={Link} to="/about">
                   About

@@ -12,6 +12,7 @@ import Header from '../../components/header'
 import Portfolio from '../portfolio'
 import About from '../../components/about'
 import Account from '../../components/account'
+import Features from '../../components/features'
 import NotFound from '../../components/not_found'
 
 class App extends Component {
@@ -133,6 +134,7 @@ class App extends Component {
         <main className="App-Main">
           <Switch>
             <Route exact path="/" component={withTracker(Portfolio)} />
+            <Route exact path="/features" component={withTracker(Features)} />
             <Route exact path="/about" component={withTracker(About)} />
             <Route exact path="/account" component={withTracker(Account)} />
             <Route component={withTracker(NotFound)} />

@@ -72,7 +72,7 @@ function determineListAndTotal(holdings, coins) {
 }
 
 function setDocumentTitle(title) {
-  document.title = `$${title.toFixed(2)}`;
+  document.title = `$${title.toFixed(2)} | chalupa.io`;
 }
 
 function updateAccountPortfolio(holdings) {
