@@ -19,7 +19,6 @@ class Portfolio extends Component {
 
   componentWillMount() {
     this.props.ccpRefresh()
-    this.props.cmcRefresh()
     if (AuthService.loggedIn()) {
       var headers = {
         'Authorization': `Bearer ${AuthService.getAccessToken()}`,
@@ -55,17 +54,6 @@ class Portfolio extends Component {
         }
       );
     }
-  }
-
-  componentDidMount() {
-    setInterval(
-      () => this.props.cmcRefresh(),
-      60000 // 1 min
-    )
-    setInterval(
-      () => this.props.ccpRefresh(),
-      3600000 // 1 hr
-    )
   }
 
   introContainer() {
