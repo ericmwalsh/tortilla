@@ -55,7 +55,7 @@ class About extends Component {
                   I have an unwavering belief that cryptocurrency will be an integral part of our future.  While it may currently be in its infancy,
                   like the internet in the mid-late 90s, it will be utilized in numerous industries in the years to come.  Right now I dedicate as
                   much of my free time as I can to advancing this project but its tough to keep up with the rapid pace of this industry. If you are
-                  interested in contributing to or supporting <b>chalupa.io</b> in any way please contact me via email () or via any of
+                  interested in contributing to or supporting <b>chalupa.io</b> in any way please contact me via email or via any of
                   the social media platforms listed below.  All contributions are GREATLY appreciated!
                 </p>
               </div>
