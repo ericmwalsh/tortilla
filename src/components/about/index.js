@@ -29,7 +29,8 @@ class About extends Component {
               <hr className="my-4" />
               <div className="about-info">
                 <p>
-                  <b>chalupa.io</b> (originally Coinucopio) is the brainchild of Eric Walsh.
+                  <b>chalupa.io</b> (originally Coinucopio) is the brainchild of <a href="https://github.com/ericmwalsh"
+                  target="_blank" rel="noopener noreferrer">Eric Walsh</a>.
                   It was created in December, 2017 as a result of his frustratation with existing cryptocurrency
                   tools which either lacked functionality (...) or were overpriced (...).  It is developed and
                   maintained in beautiful Long Beach, California.
@@ -69,11 +70,11 @@ class About extends Component {
               <a href="https://github.com/ChalupaIO" target="_blank" rel="noopener noreferrer">
                 <img className="social-media-icon" src={github} alt="github"/>
               </a>
-              <a href="https://www.instagram.com/chalupa.io/" target="_blank" rel="noopener noreferrer">
-                <img className="social-media-icon" src={instagram} alt="instagram"/>
-              </a>
               <a href="https://www.facebook.com/chalupa.io/" target="_blank" rel="noopener noreferrer">
                 <img className="social-media-icon" src={facebook} alt="facebook"/>
+              </a>
+              <a href="https://www.instagram.com/chalupa.io/" target="_blank" rel="noopener noreferrer">
+                <img className="social-media-icon" src={instagram} alt="instagram"/>
               </a>
               <br />
               <br />
