@@ -1,7 +1,13 @@
 .about .about-info {
-  width: 70%;
+  width: 90%;
   margin: auto;
   text-align: left;
+}
+
+@media screen and (min-width: 768px) {
+  .about .about-info {
+    width: 70%;
+  }
 }
 
 .about .social-media-icon {
