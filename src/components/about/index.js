@@ -1,12 +1,17 @@
 import React, { Component } from 'react'
-import logo from './logo.png'
-
-import './about.css'
-
 import {
   Container,
   Row,
   Col } from 'reactstrap';
+import { Link } from 'react-router-dom'
+
+import './about.css'
+import logo from './logo.png'
+import facebook from './facebook.png'
+import gmail from './gmail.png'
+import github from './github.png'
+import instagram from './instagram.png'
+import twitter from './twitter.png'
 
 class About extends Component {
   render() {
@@ -55,16 +60,36 @@ class About extends Component {
               </div>
             </Col>
             <Col xs="12">
-              <a href="https://github.com/ChalupaIO">Github</a>
+              <a href="mailto:eric@chalupa.io" target="_blank">
+                <img className="social-media-icon" src={gmail} />
+              </a>
+              <a href="https://twitter.com/ericmdub92" target="_blank">
+                <img className="social-media-icon" src={twitter} />
+              </a>
+              <a href="https://github.com/ChalupaIO" target="_blank">
+                <img className="social-media-icon" src={github} />
+              </a>
+              <a href="https://www.instagram.com/chalupa.io/" target="_blank">
+                <img className="social-media-icon" src={instagram} />
+              </a>
+              <a href="https://www.facebook.com/chalupa.io/" target="_blank">
+                <img className="social-media-icon" src={facebook} />
+              </a>
               <br />
-              <a href="https://twitter.com/ericmdub92">Twitter</a>
               <br />
               <br />
               <br />
-              <p>API: CoinMarketCap</p>
+              <h5>Powered by...</h5>
+              <p>
+                API: CoinMarketCap
+                <br />
+                Server(s): Heroku
+              </p>
               <br />
               <br />
-              <img src={logo} alt="Logo" />
+              <Link to="/">
+                <img src={logo} alt="Logo" className="chalupaio-logo" />
+              </Link>
             </Col>
           </Row>
         </Container>

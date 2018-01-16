@@ -7,6 +7,7 @@ import './app.css';
 import withTracker from './with_tracker'
 import AuthService from '../../utils/auth_service'
 
+import Footer from '../../components/footer'
 import Header from '../../components/header'
 
 import Portfolio from '../portfolio'
@@ -144,6 +145,7 @@ class App extends Component {
             <Route component={withTracker(NotFound)} />
           </Switch>
         </main>
+        <Footer />
       </div>
     )
   }

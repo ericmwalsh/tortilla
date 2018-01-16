@@ -3,3 +3,21 @@
   margin: auto;
   text-align: left;
 }
+
+.about .social-media-icon {
+  height: 80px;
+  width: 80px;
+  margin-right: 2em;
+  margin-bottom: 1em;
+  border-style: solid;
+  border-color: gray;
+  border-width: .5px;
+}
+
+.about .social-media-icon:hover {
+  background: lightgray;
+}
+
+.about .chalupaio-logo {
+  max-width: 100%;
+}
