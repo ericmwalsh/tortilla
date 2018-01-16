@@ -1,0 +1,27 @@
+.features .card {
+  border-style: solid;
+  border-color: black;
+  border-width: 2px;
+  margin-bottom: 1em;
+}
+
+.features .card-img-top {
+  max-height: 300px;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+}
+
+.features .sign-up-divider {
+  border-style: solid;
+  border-color: gray;
+}
+
+.features .jumbotron {
+  border-style: solid;
+  border-width: 2px;
+}
+
+.features .features-disclaimer {
+  font-size: 10px;
+  color: gray;
+}

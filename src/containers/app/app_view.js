@@ -134,7 +134,11 @@ class App extends Component {
         <main className="App-Main">
           <Switch>
             <Route exact path="/" component={withTracker(Portfolio)} />
-            <Route exact path="/features" component={withTracker(Features)} />
+            <Route
+              exact
+              path="/features"
+              component={withTracker(Features, {authService: this.authService})}
+            />
             <Route exact path="/about" component={withTracker(About)} />
             <Route exact path="/account" component={withTracker(Account)} />
             <Route component={withTracker(NotFound)} />

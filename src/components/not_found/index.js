@@ -11,9 +11,9 @@ class NotFound extends Component {
         <br/>
         <br/>
         <h3>
-          <Link to="/">Coinucopio</Link>
+          <Link to="/">chalupa.io</Link>
         </h3>
-        <p>Open source index funds.  Track your portfolio, share your gains, reap the rewards.</p>
+        <p>Track your portfolio, share your gains, reap the rewards.</p>
         <br/>
       </div>
     );

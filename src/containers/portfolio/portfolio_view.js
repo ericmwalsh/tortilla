@@ -76,11 +76,11 @@ class Portfolio extends Component {
             <Jumbotron>
               <h3 className="display-5">Cryptocurrency Portfolio Management</h3>
               <p className="lead">
-                <b>chalupa.io</b> is a free tool to help you track your portfolio, share your gains, and reap the rewards.
+                <b>chalupa.io</b> is a tool to help you track your portfolio, share your gains, and reap the rewards.
               </p>
               <hr className="my-2" />
               <p>We are currently in beta but are adding new features on a regular basis.</p>
-              <p>The current <em>optimistic</em> goal is to add US tax calculations before the end of the 2017 tax season.</p>
+              <p>The current <em>optimistic</em> goal is to add FREE tax calculations before the end of the 2017 tax season.</p>
               <p className="lead">
                 <Button tag={Link} to="/features" color="primary">Learn More</Button>
               </p>
@@ -93,7 +93,7 @@ class Portfolio extends Component {
 
   portfolioContainer() {
     return (
-      <Container className="portfolio-container no-gutters">
+      <Container className="portfolio-container">
         <Row>
           <Col>
             <div className="intro-text">
