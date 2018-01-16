@@ -60,20 +60,20 @@ class About extends Component {
               </div>
             </Col>
             <Col xs="12">
-              <a href="mailto:eric@chalupa.io" target="_blank">
-                <img className="social-media-icon" src={gmail} />
+              <a href="mailto:eric@chalupa.io" target="_blank" rel="noopener noreferrer">
+                <img className="social-media-icon" src={gmail} alt="gmail"/>
               </a>
-              <a href="https://twitter.com/ericmdub92" target="_blank">
-                <img className="social-media-icon" src={twitter} />
+              <a href="https://twitter.com/ericmdub92" target="_blank" rel="noopener noreferrer">
+                <img className="social-media-icon" src={twitter} alt="twitter"/>
               </a>
-              <a href="https://github.com/ChalupaIO" target="_blank">
-                <img className="social-media-icon" src={github} />
+              <a href="https://github.com/ChalupaIO" target="_blank" rel="noopener noreferrer">
+                <img className="social-media-icon" src={github} alt="github"/>
               </a>
-              <a href="https://www.instagram.com/chalupa.io/" target="_blank">
-                <img className="social-media-icon" src={instagram} />
+              <a href="https://www.instagram.com/chalupa.io/" target="_blank" rel="noopener noreferrer">
+                <img className="social-media-icon" src={instagram} alt="instagram"/>
               </a>
-              <a href="https://www.facebook.com/chalupa.io/" target="_blank">
-                <img className="social-media-icon" src={facebook} />
+              <a href="https://www.facebook.com/chalupa.io/" target="_blank" rel="noopener noreferrer">
+                <img className="social-media-icon" src={facebook} alt="facebook"/>
               </a>
               <br />
               <br />
