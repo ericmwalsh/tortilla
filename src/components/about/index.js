@@ -64,7 +64,7 @@ class About extends Component {
               <a href="mailto:eric@chalupa.io" target="_blank" rel="noopener noreferrer">
                 <img className="social-media-icon" src={gmail} alt="gmail"/>
               </a>
-              <a href="https://twitter.com/ericmdub92" target="_blank" rel="noopener noreferrer">
+              <a href="https://twitter.com/chalupa_io" target="_blank" rel="noopener noreferrer">
                 <img className="social-media-icon" src={twitter} alt="twitter"/>
               </a>
               <a href="https://github.com/ChalupaIO" target="_blank" rel="noopener noreferrer">
