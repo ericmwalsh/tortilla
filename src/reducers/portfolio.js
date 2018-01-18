@@ -16,6 +16,9 @@ import {
 import AuthService from '../utils/auth_service'
 
 function obtainHoldings() {
+  if(localStorage.getItem('portfolio.holdings') === "undefined") {
+    localStorage.clear()
+  }
   var holdings = JSON.parse(localStorage.getItem('portfolio.holdings'));
   if (holdings == null) {
     holdings = ExamplePortfolio.data0;
