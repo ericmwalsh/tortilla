@@ -29,6 +29,7 @@ export default class AuthService {
           title: 'CHALUPA.IO',
         },
         allowShowPassword: true,
+        allowAutocomplete: true,
         autoclose: true,
         socialButtonStyle: 'small',
       }
