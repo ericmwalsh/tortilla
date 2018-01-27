@@ -1,13 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import 'bootstrap/dist/css/bootstrap.css';
-import registerServiceWorker from './registerServiceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { ConnectedRouter } from "react-router-redux";
+import "bootstrap/dist/css/bootstrap.css";
 
-import { Provider } from 'react-redux'
-import { ConnectedRouter } from 'react-router-redux'
-import store, { history } from './store'
-import App from './containers/app/'
+import App from "./containers/app/";
+import store, { history } from "./utils/store";
+import registerServiceWorker from "./utils/registerServiceWorker";
+import "./index.css";
 
 ReactDOM.render(
   <Provider store={store}>
@@ -17,6 +17,6 @@ ReactDOM.render(
       </div>
     </ConnectedRouter>
   </Provider>,
-  document.getElementById('root')
+  document.getElementById("root"),
 );
 registerServiceWorker();

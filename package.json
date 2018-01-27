@@ -25,10 +25,12 @@
     "start": "PORT=4000 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "flow": "flow"
   },
   "proxy": "http://localhost:3000/",
   "devDependencies": {
+    "flow-bin": "^0.63.1",
     "redux-devtools": "^3.4.1"
   }
 }
