@@ -23,6 +23,7 @@ class App extends Component {
 
     this.authService = new AuthService();
 
+    // user is logged in, need to refresh the token
     if (AuthService.tokenExists() && !AuthService.loggedIn()) {
       this.authService.lock.checkSession(
         {
@@ -35,50 +36,38 @@ class App extends Component {
             AuthService.clearStorage();
             props.loginError(err);
           } else {
-            this.authService.lock.getUserInfo(
-              authResult.accessToken,
-              (error, profile) => {
-                if (error) {
-                  return props.loginError(error);
+            AuthService.login(authResult);
+
+            const headers = {
+              Authorization: `Bearer ${authResult.accessToken}`,
+              Accept: "application/json, text/plain, */*",
+              "Content-Type": "application/json",
+            };
+
+            fetch(`${process.env.REACT_APP_CRYPTO_PORTFOLIO_URL}portfolio`, {
+              headers,
+            })
+              .then(response => response.json())
+              .then(json => {
+                // new account
+                if (json.data === "") {
+                  const holdings = localStorage.getItem("portfolio.holdings");
+                  if (holdings) {
+                    fetch(
+                      `${process.env.REACT_APP_CRYPTO_PORTFOLIO_URL}portfolio`,
+                      {
+                        headers,
+                        method: "POST",
+                        body: JSON.stringify({ holdings: holdings }),
+                      },
+                    );
+                  }
+                } else {
+                  // load stored holdings
+                  localStorage.setItem("portfolio.holdings", json.data);
                 }
-                AuthService.login(authResult, profile);
-                // return props.loginSuccess(profile);
-
-                var headers = {
-                  Authorization: `Bearer ${authResult.accessToken}`,
-                  Accept: "application/json, text/plain, */*",
-                  "Content-Type": "application/json",
-                };
-
-                fetch(
-                  `${process.env.REACT_APP_CRYPTO_PORTFOLIO_URL}portfolio`,
-                  { headers },
-                )
-                  .then(response => response.json())
-                  .then(json => {
-                    // new account
-                    if (json.data === "") {
-                      var holdings = localStorage.getItem("portfolio.holdings");
-                      if (holdings) {
-                        fetch(
-                          `${
-                            process.env.REACT_APP_CRYPTO_PORTFOLIO_URL
-                          }portfolio`,
-                          {
-                            headers,
-                            method: "POST",
-                            body: JSON.stringify({ holdings: holdings }),
-                          },
-                        );
-                      }
-                    } else {
-                      // load stored holdings
-                      localStorage.setItem("portfolio.holdings", json.data);
-                    }
-                    return this.props.loginSuccess(profile);
-                  });
-              },
-            );
+                return this.props.loginSuccess(authResult.idTokenPayload);
+              });
           }
         },
       );
@@ -89,47 +78,36 @@ class App extends Component {
     this.props.cmcRefresh();
     // Add callback for lock's `authenticated` event
     this.authService.lock.on("authenticated", authResult => {
-      this.authService.lock.getUserInfo(
-        authResult.accessToken,
-        (error, profile) => {
-          if (error) {
-            return this.props.loginError(error);
+      AuthService.login(authResult); // static method
+
+      const headers = {
+        Authorization: `Bearer ${authResult.accessToken}`,
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+      };
+
+      fetch(`${process.env.REACT_APP_CRYPTO_PORTFOLIO_URL}portfolio`, {
+        headers,
+      })
+        .then(response => response.json())
+        .then(json => {
+          // new account
+          if (json.data === "") {
+            const holdings = localStorage.getItem("portfolio.holdings");
+            if (holdings) {
+              fetch(`${process.env.REACT_APP_CRYPTO_PORTFOLIO_URL}portfolio`, {
+                headers,
+                method: "POST",
+                body: JSON.stringify({ holdings: holdings }),
+              });
+            }
+          } else {
+            // load stored holdings
+            localStorage.setItem("portfolio.holdings", json.data);
           }
-          AuthService.login(authResult, profile); // static method
-
-          var headers = {
-            Authorization: `Bearer ${authResult.accessToken}`,
-            Accept: "application/json, text/plain, */*",
-            "Content-Type": "application/json",
-          };
-
-          fetch(`${process.env.REACT_APP_CRYPTO_PORTFOLIO_URL}portfolio`, {
-            headers,
-          })
-            .then(response => response.json())
-            .then(json => {
-              // new account
-              if (json.data === "") {
-                var holdings = localStorage.getItem("portfolio.holdings");
-                if (holdings) {
-                  fetch(
-                    `${process.env.REACT_APP_CRYPTO_PORTFOLIO_URL}portfolio`,
-                    {
-                      headers,
-                      method: "POST",
-                      body: JSON.stringify({ holdings: holdings }),
-                    },
-                  );
-                }
-              } else {
-                // load stored holdings
-                localStorage.setItem("portfolio.holdings", json.data);
-              }
-              return this.props.loginSuccess(profile);
-            });
-          // return this.props.history.push({ pathname: '/' });
-        },
-      );
+          return this.props.loginSuccess(authResult.idTokenPayload);
+        });
+      // return this.props.history.push({ pathname: '/' });
     });
     // Add callback for lock's `authorization_error` event
     this.authService.lock.on("authorization_error", error => {

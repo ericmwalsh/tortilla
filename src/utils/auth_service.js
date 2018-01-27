@@ -59,10 +59,10 @@ export default class AuthService {
     });
   }
 
-  static login(authResult, profile) {
+  static login(authResult) {
     AuthService.setAccessToken(authResult.accessToken);
     AuthService.setAuthResult(authResult);
-    AuthService.setProfile(profile);
+    AuthService.setProfile(authResult.idTokenPayload);
   }
 
   static loggedIn() {
