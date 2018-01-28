@@ -5,7 +5,7 @@
   "dependencies": {
     "auth0-js": "^9.0.1",
     "auth0-lock": "^11.0.1",
-    "bootstrap": "^4.0.0-beta.2",
+    "bootstrap": "^4.0.0",
     "chart.js": "^2.7.1",
     "history": "^4.7.2",
     "prop-types": "^15.6.0",

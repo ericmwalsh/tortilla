@@ -54,7 +54,9 @@ export default class AuthService {
   // ======================================================
   static clearOldNonces() {
     Object.keys(localStorage).forEach(key => {
-      if (!key.startsWith("com.auth0.auth")) return;
+      if (!key.startsWith("com.auth0.auth")) {
+        return;
+      }
       localStorage.removeItem(key);
     });
   }
@@ -132,7 +134,9 @@ export default class AuthService {
 
   static isTokenExpired() {
     const token = AuthService.getAuthResult();
-    if (!token) return true;
+    if (!token) {
+      return true;
+    }
 
     const date = new Date(token.expiresAt);
 
