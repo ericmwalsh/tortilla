@@ -10,7 +10,7 @@ import AuthService from "../../utils/auth_service";
 import Footer from "../../components/footer";
 import Header from "../header";
 
-import Portfolio from "../portfolio";
+import Home from "../home";
 import About from "../../components/about";
 import Account from "../account";
 import Features from "../../components/features";
@@ -54,7 +54,7 @@ class App extends Component {
         <br />
         <main className="App-Main">
           <Switch>
-            <Route exact path="/" component={withTracker(Portfolio)} />
+            <Route exact path="/" component={withTracker(Home)} />
             <Route
               exact
               path="/features"
