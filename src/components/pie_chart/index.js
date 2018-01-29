@@ -1,27 +1,24 @@
-import React, { Component } from 'react';
-import Chart from 'chart.js'
+import React, { Component } from "react";
+import Chart from "chart.js";
 
-import Colors from '../../constants/colors'
-import './pie_chart.css';
+import Colors from "../../constants/colors";
+import "./pie_chart.css";
 
 class PieChart extends Component {
-
   coinDataAndLabels() {
-    var coins = this.props.list.sort((a,b) => b.value - a.value);
-    var colors = this.pieColors().slice(0, coins.length);
-    var data = [];
-    var labels = [];
+    const coins = this.props.list.sort((a, b) => b.value - a.value);
+    const colors = this.pieColors().slice(0, coins.length);
+    const data = [];
+    const labels = [];
 
-    coins.forEach(
-      (coin) => {
-        data.push(coin.value.toFixed(2));
-        labels.push(coin.symbol);
-      }
-    )
+    coins.forEach(coin => {
+      data.push(coin.value.toFixed(2));
+      labels.push(coin.symbol);
+    });
     return {
       colors: colors,
       data: data,
-      labels: labels
+      labels: labels,
     };
   }
 
@@ -30,7 +27,7 @@ class PieChart extends Component {
   }
 
   componentDidUpdate() {
-    var coinDataAndLabels = this.coinDataAndLabels();
+    const coinDataAndLabels = this.coinDataAndLabels();
 
     document.pie.data.datasets[0].backgroundColor = coinDataAndLabels.colors;
     document.pie.data.datasets[0].data = coinDataAndLabels.data;
@@ -43,42 +40,46 @@ class PieChart extends Component {
   }
 
   buildPieConfig() {
-    var coinDataAndLabels = this.coinDataAndLabels();
+    const coinDataAndLabels = this.coinDataAndLabels();
     return {
-      type: 'pie',
+      type: "pie",
       data: {
-        datasets: [{
-          data: coinDataAndLabels.data,
-          backgroundColor: coinDataAndLabels.colors,
-          label: 'Portfolio'
-        }],
-        labels: coinDataAndLabels.labels
+        datasets: [
+          {
+            data: coinDataAndLabels.data,
+            backgroundColor: coinDataAndLabels.colors,
+            label: "Portfolio",
+          },
+        ],
+        labels: coinDataAndLabels.labels,
       },
       options: {
         responsive: true,
         tooltips: {
           custom: function(tooltipModel) {
             if (tooltipModel.body) {
-              tooltipModel.body[0].lines[0] = tooltipModel.body[0].lines[0].replace(/: /, ": $");
+              tooltipModel.body[0].lines[0] = tooltipModel.body[0].lines[0].replace(
+                /: /,
+                ": $",
+              );
             }
             return tooltipModel;
-          }
-        }
-      }
-    }
+          },
+        },
+      },
+    };
   }
 
   renderPie() {
-    var ctx = this.refs.PieArea.getContext("2d");
-    var config = this.buildPieConfig();
+    const ctx = this.refs.PieArea.getContext("2d");
+    const config = this.buildPieConfig();
     document.pie = new Chart(ctx, config);
   }
 
   render() {
     return (
       <div className="PortfolioPie">
-        <canvas ref="PieArea" height="300">
-        </canvas>
+        <canvas ref="PieArea" height="300" />
       </div>
     );
   }

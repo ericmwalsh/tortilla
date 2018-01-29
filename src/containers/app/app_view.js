@@ -8,11 +8,11 @@ import withTracker from "./with_tracker";
 import AuthService from "../../utils/auth_service";
 
 import Footer from "../../components/footer";
-import Header from "../../components/header";
+import Header from "../header";
 
 import Portfolio from "../portfolio";
 import About from "../../components/about";
-import Account from "../../components/account";
+import Account from "../account";
 import Features from "../../components/features";
 import NotFound from "../../components/not_found";
 

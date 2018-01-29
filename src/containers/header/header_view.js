@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom'
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import {
   Collapse,
   Navbar,
@@ -13,13 +13,13 @@ import {
   DropdownMenu,
   DropdownToggle,
   DropdownItem,
-  Tooltip } from 'reactstrap';
+  Tooltip,
+} from "reactstrap";
 
-import AuthService from '../../utils/auth_service'
+import AuthService from "../../utils/auth_service";
 
-import logo from './logo.png'
-import './header.css';
-
+import logo from "./logo.png";
+import "./header.css";
 
 class Header extends Component {
   constructor(props) {
@@ -28,8 +28,8 @@ class Header extends Component {
     this.state = {
       navIsOpen: false,
       tooltipIsOpen: false,
-      userDropdownOpen: false
-    }
+      userDropdownOpen: false,
+    };
     this.toggleNav = this.toggleNav.bind(this);
     this.toggleTooltip = this.toggleTooltip.bind(this);
     this.toggleUserDropdown = this.toggleUserDropdown.bind(this);
@@ -37,19 +37,19 @@ class Header extends Component {
 
   toggleNav() {
     this.setState({
-      navIsOpen: !this.state.navIsOpen
+      navIsOpen: !this.state.navIsOpen,
     });
   }
 
   toggleTooltip() {
     this.setState({
-      tooltipIsOpen: !this.state.tooltipIsOpen
+      tooltipIsOpen: !this.state.tooltipIsOpen,
     });
   }
 
   toggleUserDropdown() {
     this.setState({
-      userDropdownOpen: !this.state.userDropdownOpen
+      userDropdownOpen: !this.state.userDropdownOpen,
     });
   }
 
@@ -69,13 +69,13 @@ class Header extends Component {
                 </NavLink>
               </NavItem>
 
-              {!this.props.auth.isAuthenticated &&
+              {!this.props.auth.isAuthenticated && (
                 <NavItem>
                   <NavLink tag={Link} to="/features">
                     Features
                   </NavLink>
                 </NavItem>
-              }
+              )}
 
               <NavItem>
                 <NavLink tag={Link} to="/about">
@@ -83,13 +83,20 @@ class Header extends Component {
                 </NavLink>
               </NavItem>
 
-              {this.props.auth.isAuthenticated ?
+              {this.props.auth.isAuthenticated ? (
                 <NavItem>
-                  <Dropdown isOpen={this.state.userDropdownOpen} toggle={this.toggleUserDropdown}>
+                  <Dropdown
+                    isOpen={this.state.userDropdownOpen}
+                    toggle={this.toggleUserDropdown}
+                  >
                     <DropdownToggle color="white">
-                      {this.props.auth.profile.picture &&
-                        <img src={this.props.auth.profile.picture} height="30px" alt="profile" />
-                      }
+                      {this.props.auth.profile.picture && (
+                        <img
+                          src={this.props.auth.profile.picture}
+                          height="30px"
+                          alt="profile"
+                        />
+                      )}
                     </DropdownToggle>
                     <DropdownMenu right>
                       <DropdownItem>
@@ -103,7 +110,7 @@ class Header extends Component {
                           onClick={() => {
                             AuthService.logout(); // careful, this is a static method
                             this.props.logoutSuccess();
-                            this.props.history.push({ pathname: '/' });
+                            this.props.history.push({ pathname: "/" });
                           }}
                         >
                           Log Out
@@ -112,7 +119,7 @@ class Header extends Component {
                     </DropdownMenu>
                   </Dropdown>
                 </NavItem>
-                :
+              ) : (
                 [
                   <NavItem key="sign-up">
                     <NavLink
@@ -135,12 +142,11 @@ class Header extends Component {
                     >
                       Log In
                     </NavLink>
-                  </NavItem>
+                  </NavItem>,
                 ]
-              }
+              )}
 
-
-              {this.props.auth.error &&
+              {this.props.auth.error && (
                 <div>
                   <NavItem id="error-tooltip">
                     <div className="nav-link">!!!</div>
@@ -151,10 +157,13 @@ class Header extends Component {
                     target="error-tooltip"
                     toggle={this.toggleTooltip}
                   >
-                    <p>{this.props.auth.error.error} : {this.props.auth.error.errorDescription}</p>
+                    <p>
+                      {this.props.auth.error.error} :{" "}
+                      {this.props.auth.error.errorDescription}
+                    </p>
                   </Tooltip>
                 </div>
-              }
+              )}
             </Nav>
           </Collapse>
         </Navbar>
@@ -162,7 +171,6 @@ class Header extends Component {
     );
   }
 }
-
 
 Header.propTypes = {
   authService: PropTypes.object.isRequired, // eslint-disable-line

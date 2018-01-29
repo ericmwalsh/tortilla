@@ -1,7 +1,14 @@
-import React, { Component } from 'react';
-import { Button, Input, InputGroupAddon, InputGroup, Col, Row } from 'reactstrap';
+import React, { Component } from "react";
+import {
+  Button,
+  Input,
+  InputGroupAddon,
+  InputGroup,
+  Col,
+  Row,
+} from "reactstrap";
 
-import './item.css';
+import "./item.css";
 
 class Item extends Component {
   // name={holding.name}
@@ -18,88 +25,82 @@ class Item extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      amount: ''
+      amount: "",
     };
   }
 
-  setAmount = (evt) => {
+  setAmount = evt => {
     this.setState({
-      amount: (evt.target.value === '' ? '' : parseFloat(evt.target.value))
+      amount: evt.target.value === "" ? "" : parseFloat(evt.target.value),
     });
-  }
+  };
 
   updateCurrency = () => {
     if (this.state.amount === 0) {
       this.removeCurrency();
     }
-    if (this.state.amount !== '') {
+    if (this.state.amount !== "") {
       this.props.modifyHolding(this.props.symbol, this.state.amount);
-      setTimeout(
-        () => {
-          this.setState(
-            {
-              amount: ''
-            }
-          )
-        },
-        100
-      );
+      setTimeout(() => {
+        this.setState({
+          amount: "",
+        });
+      }, 100);
     }
-  }
+  };
 
   removeCurrency = () => {
     this.props.removeHolding(this.props.symbol);
-  }
+  };
 
-  handleKeyPress = (e) => {
-    if(e.key === 'Enter') {
+  handleKeyPress = e => {
+    if (e.key === "Enter") {
       this.updateCurrency();
     }
-  }
+  };
 
   render() {
-    if (this.props.editable) {
-      var portfolio_list_item =
-        <Row>
-          <InputGroup className="col-10 currency-input">
-            <InputGroupAddon>{this.props.symbol}</InputGroupAddon>
-            <Input
-              placeholder={this.props.amount}
-              value={this.state.amount}
-              onChange={this.setAmount}
-              type="number"
-              step=".000001"
-              onKeyPress={this.handleKeyPress}
-            />
-          </InputGroup>
-          <Button className="col-1" outline color="success" onClick={this.updateCurrency}>✓</Button>
-          <Button className="col-1" outline color="danger" onClick={this.removeCurrency}>X</Button>
-        </Row>
-    }
-    else {
-      portfolio_list_item =
-        <Row>
-          <Col xs="5">
-            {this.props.name}
-          </Col>
-          <Col xs="3">
-            {this.props.amount}
-          </Col>
-          <Col xs="4">
-            {`$${this.props.value.toFixed(2)}`}
-          </Col>
-          <div className="w-100"></div>
-          <Col xs="5">
-            {this.props.symbol}
-          </Col>
-          <Col xs="3">
-            {`$${this.props.price.toFixed(2)}`}
-          </Col>
-          <Col xs="4">
-            {`${this.props.percent.toFixed(2)}%`}
-          </Col>
-        </Row>
-    }
+    const portfolio_list_item = this.props.editable ? (
+      <Row>
+        <InputGroup className="col-10 currency-input">
+          <InputGroupAddon>{this.props.symbol}</InputGroupAddon>
+          <Input
+            placeholder={this.props.amount}
+            value={this.state.amount}
+            onChange={this.setAmount}
+            type="number"
+            step=".000001"
+            onKeyPress={this.handleKeyPress}
+          />
+        </InputGroup>
+        <Button
+          className="col-1"
+          outline
+          color="success"
+          onClick={this.updateCurrency}
+        >
+          ✓
+        </Button>
+        <Button
+          className="col-1"
+          outline
+          color="danger"
+          onClick={this.removeCurrency}
+        >
+          X
+        </Button>
+      </Row>
+    ) : (
+      <Row>
+        <Col xs="5">{this.props.name}</Col>
+        <Col xs="3">{this.props.amount}</Col>
+        <Col xs="4">{`$${this.props.value.toFixed(2)}`}</Col>
+        <div className="w-100" />
+        <Col xs="5">{this.props.symbol}</Col>
+        <Col xs="3">{`$${this.props.price.toFixed(2)}`}</Col>
+        <Col xs="4">{`${this.props.percent.toFixed(2)}%`}</Col>
+      </Row>
+    );
     return (
       <Col className="portfolio-list-item" xs="12">
         {portfolio_list_item}

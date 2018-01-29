@@ -1,15 +1,19 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 
-import './account.css'
+import "./account.css";
 
 class Account extends Component {
   render() {
-    return(
+    return (
       <div>
         <h1>Account</h1>
         <br />
-        <img src={this.props.auth.profile.picture} height="50px" alt="profile" />
+        <img
+          src={this.props.auth.profile.picture}
+          height="50px"
+          alt="profile"
+        />
         <br />
         <br />
         <br />
