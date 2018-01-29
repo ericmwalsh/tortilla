@@ -23,97 +23,19 @@ class App extends Component {
 
     this.authService = new AuthService();
 
-    // user is logged in, need to refresh the token
-    if (AuthService.tokenExists() && !AuthService.loggedIn()) {
-      this.authService.lock.checkSession(
-        {
-          audience: process.env.REACT_APP_AUTH0_AUDIENCE,
-          scope: "openid profile email",
-          responseType: "token id_token",
-        },
-        (err, authResult) => {
-          if (err) {
-            AuthService.clearStorage();
-            props.loginError(err);
-          } else {
-            AuthService.login(authResult);
-
-            const headers = {
-              Authorization: `Bearer ${authResult.accessToken}`,
-              Accept: "application/json, text/plain, */*",
-              "Content-Type": "application/json",
-            };
-
-            fetch(`${process.env.REACT_APP_CRYPTO_PORTFOLIO_URL}portfolio`, {
-              headers,
-            })
-              .then(response => response.json())
-              .then(json => {
-                // new account
-                if (json.data === "") {
-                  const holdings = localStorage.getItem("portfolio.holdings");
-                  if (holdings) {
-                    fetch(
-                      `${process.env.REACT_APP_CRYPTO_PORTFOLIO_URL}portfolio`,
-                      {
-                        headers,
-                        method: "POST",
-                        body: JSON.stringify({ holdings: holdings }),
-                      },
-                    );
-                  }
-                } else {
-                  // load stored holdings
-                  localStorage.setItem("portfolio.holdings", json.data);
-                }
-                return this.props.loginSuccess(authResult.idTokenPayload);
-              });
-          }
-        },
-      );
-    }
+    // user is logged in but expired, need to refresh the token
+    this.authService.checkSession(props.loginSuccess, props.loginError);
   }
 
   componentWillMount() {
     this.props.cmcRefresh();
     // Add callback for lock's `authenticated` event
-    this.authService.lock.on("authenticated", authResult => {
-      AuthService.login(authResult); // static method
-
-      const headers = {
-        Authorization: `Bearer ${authResult.accessToken}`,
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json",
-      };
-
-      fetch(`${process.env.REACT_APP_CRYPTO_PORTFOLIO_URL}portfolio`, {
-        headers,
-      })
-        .then(response => response.json())
-        .then(json => {
-          // new account
-          if (json.data === "") {
-            const holdings = localStorage.getItem("portfolio.holdings");
-            if (holdings) {
-              fetch(`${process.env.REACT_APP_CRYPTO_PORTFOLIO_URL}portfolio`, {
-                headers,
-                method: "POST",
-                body: JSON.stringify({ holdings: holdings }),
-              });
-            }
-          } else {
-            // load stored holdings
-            localStorage.setItem("portfolio.holdings", json.data);
-          }
-          return this.props.loginSuccess(authResult.idTokenPayload);
-        });
-      // return this.props.history.push({ pathname: '/' });
-    });
+    this.authService.setupAuthentication(this.props.loginSuccess);
     // Add callback for lock's `authorization_error` event
-    this.authService.lock.on("authorization_error", error => {
-      this.props.loginError(error);
-      return this.props.history.push({ pathname: "/" });
-    });
+    this.authService.setupErrorHandling(
+      this.props.loginError,
+      this.props.history,
+    );
   }
 
   componentDidMount() {
