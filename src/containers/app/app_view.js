@@ -20,9 +20,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     // AuthService.clearOldNonces(); // house cleaning
-
     this.authService = new AuthService();
-
     // user is logged in but expired, need to refresh the token
     this.authService.checkSession(props.loginSuccess, props.loginError);
   }
